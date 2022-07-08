@@ -12,11 +12,10 @@
 <body>
 	<%-- Connect To Database --%>
 	<%
-			
-		
 			// Get Connection
-			Connection connection = ConnectionManager.getConnection();
-			
+			Connection connection = null;
+			connection = ConnectionManager.getConnection();
+		
 			// Get values
 			int animalDetailsID = Integer.parseInt(request.getParameter("animalDetailsID"));
 			
@@ -68,6 +67,9 @@
 				</td>
 				<td>
 					<c:choose>
+						<c:when test='${result.getString("suppliername") == null}'>
+							<input type="text" name="supplierName" value='' placeholder="...">
+						</c:when>
 						<c:when test='${result.getString("suppliername") == ""}'>
 							<input type="text" name="supplierName" value='' placeholder="...">
 						</c:when>
@@ -86,7 +88,7 @@
 		<button class="" name="action" value="cancel" formaction="AnimalDetailsServlet">Batal</button>
 		
 		<input type="hidden" name="action" value="updateAnimalDetails"> <%-- SERVLET REFERENCE --%>
-		<button type="submit" class="" formaction="AnimalDetailsServlet">Kemaskini</button>
+		<button type="submit" class="" formaction="AnimalDetailsServlet">Simpan</button>
 	</form>
 	
 

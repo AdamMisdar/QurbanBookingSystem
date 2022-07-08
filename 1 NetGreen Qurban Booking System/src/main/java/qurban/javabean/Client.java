@@ -3,7 +3,7 @@ package qurban.javabean;
 import java.sql.Date;
 
 public class Client {
-	private String clientID;
+	private int clientID;
 	private String clientFullName;
 	private String clientAddress;
 	private String clientPhoneNum;
@@ -14,7 +14,7 @@ public class Client {
 	// Constructor -------------------------------------------------------------------------
 	
 	// with ID
-	public Client(String clientID, String clientFullName, String clientAddress, String clientPhoneNum,
+	public Client(int clientID, String clientFullName, String clientAddress, String clientPhoneNum,
 			Date clientBirthDate, String clientEmail, String clientPassword) {
 
 		this.clientID = clientID;
@@ -38,8 +38,13 @@ public class Client {
 		this.clientPassword = clientPassword;
 	}
 	
+	// default
+	public Client() {
+		
+	}
+	
 	// Setters ----------------------------------------------------
-	public void setClientID(String clientID) {
+	public void setClientID(int clientID) {
 		this.clientID = clientID;
 	}
 	
@@ -69,7 +74,7 @@ public class Client {
 
 	
 	// Getters -----------------------------------------------------
-	public String getClientID() {
+	public int getClientID() {
 		return clientID;
 	}
 

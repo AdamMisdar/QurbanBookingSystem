@@ -9,11 +9,11 @@ import qurban.dao.*;
 import qurban.javabean.*;
 
 @WebServlet("/AnimalDetailsServlet")
-public class AnimalDetailsServlet extends HttpServlet {
+public class AnimalDetailsHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private AnimalDetailsDAO animalDetailsDAO;
     
-    public AnimalDetailsServlet() {
+    public AnimalDetailsHandler() {
         super();
         animalDetailsDAO = new AnimalDetailsDAO();
     }

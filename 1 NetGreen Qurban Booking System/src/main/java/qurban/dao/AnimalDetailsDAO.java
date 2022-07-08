@@ -33,8 +33,8 @@ public class AnimalDetailsDAO {
 			// Prepare SQL Statement
 			PreparedStatement createSQL = connection.prepareStatement
 			( "INSERT INTO animaldetails"
-			+ "(animaltype, animalPrice, supplierName)"
-			+ "VALUES (?, ?, ?)");
+			+ "(animaldetailsid, animaltype, animalprice, suppliername)"
+			+ "VALUES (sequence_animaldetails.nextval, ?, ?, ?)");
 				
 			// Set ? values
 			createSQL.setString(1, animalType);

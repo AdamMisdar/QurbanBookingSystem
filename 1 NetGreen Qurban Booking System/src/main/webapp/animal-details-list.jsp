@@ -10,14 +10,14 @@
 </head>
 <body>
 	<%-- DATABASE --%>
-	<sql:setDataSource	var="qurbanDatabase" driver="org.postgresql.Driver"
-						url="jdbc:postgresql://localhost/Netgreen_Qurban"
-						user="postgres"
-						password="system"									/>
+	<sql:setDataSource	var="qurbanDatabase" driver="oracle.jdbc.driver.OracleDriver"
+						url="jdbc:oracle:thin:@localhost:1521:xe"
+						user="netgreen"
+						password="system" />
 						
 	<%-- SQL QUERY - DISPLAY ALL ANIMAL DETAILS --%>
-	<sql:query dataSource="${qurbanDatabase}" var="SQL">
-	SELECT row_number() over () "rank", animaldetailsid, animaltype, animalprice, suppliername from animaldetails where animaldetailsid > 0 order by animaldetailsid
+	<sql:query dataSource="${qurbanDatabase}" var="result">
+	   SELECT * FROM animaldetails ORDER BY animaldetailsid
 	</sql:query>
 	
 	<%-- HEADER --%>
@@ -35,7 +35,7 @@
 				<th style="width: 200px;">Nama Pembekal</th>
 				<th style="width: 200px;">Tindakan</th>
 			</tr>
-		<c:forEach var="animalDetails" items="${SQL.rows}">
+		<c:forEach var="animalDetails" items="${result.rows}">
 			<tr>
 				<td>
 					<c:out value="${animalDetails.animaldetailsid}"/>
@@ -59,7 +59,8 @@
 				</td>
 				<td> <%-- TINDAKAN --%>
 					<form method="post"> <%-- UPDATE/KEMASKINI BUTTON --%>
-						<button class="" formaction="editAnimalDetails.jsp?animalDetailsID=${animalDetails.animaldetailsid}">KEMASKINI</button>
+						<input type="hidden" name="animalDetailsID" value="${animalDetails.animaldetailsid}">
+						<button class="" formaction="editAnimalDetails.jsp">KEMASKINI</button>
 					</form>
 					<form method="post"> <%-- DELETE/PADAM BUTTON --%>
 						<input type="hidden" name="animalDetailsID" value="${animalDetails.animaldetailsid}"> 	<%-- Set Animal Details ID --%> <%-- SERVLET REFERENCE --%>
