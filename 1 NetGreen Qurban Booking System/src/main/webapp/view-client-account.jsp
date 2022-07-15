@@ -85,7 +85,6 @@
     </table><br>
     
     <button name="update" onclick="location.href='edit-client-account.jsp'">KEMASKINI AKAUN</button>
-    <button name="delete" onclick="location.href='ClientHandler?action=deleteClient&clientID=<%=client_id%>'">PADAM AKAUN</button>
     
   
     

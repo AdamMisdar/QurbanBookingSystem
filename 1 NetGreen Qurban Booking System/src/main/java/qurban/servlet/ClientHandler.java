@@ -122,7 +122,7 @@ public class ClientHandler extends HttpServlet {
 
 	}
 	
-	// Delete Client Account
+	// Delete Client Account (Manager Only)
 	private void deleteClient(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, SQLException, IOException {
 		
