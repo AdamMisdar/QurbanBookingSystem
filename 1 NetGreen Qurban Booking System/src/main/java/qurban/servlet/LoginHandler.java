@@ -115,7 +115,7 @@ public class LoginHandler extends HttpServlet {
 				
 				
 				// Redirect to client's home page
-				toPage = request.getRequestDispatcher("client-homepage.jsp");
+				toPage = request.getRequestDispatcher("index-client.jsp");
 
 				
 				System.out.println("Ada client");
@@ -130,7 +130,7 @@ public class LoginHandler extends HttpServlet {
 				
 				
 				// Redirect to client's home page
-				toPage = request.getRequestDispatcher("committee-homepage.jsp");
+				toPage = request.getRequestDispatcher("index-committee.jsp");
 
 				
 				System.out.println("Ada committee");

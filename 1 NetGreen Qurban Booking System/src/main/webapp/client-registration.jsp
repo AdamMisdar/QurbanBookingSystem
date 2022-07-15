@@ -47,7 +47,6 @@
 
 	</form><br><br>
 	
-	Bukan Klien? <a href="committee-registration.jsp">Daftar sebagai AJK</a><br><br>
 	Sudah ada akaun? <a href="login.jsp">Log Masuk</a>
 	
 
