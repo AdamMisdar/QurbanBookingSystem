@@ -112,11 +112,10 @@ public class LoginHandler extends HttpServlet {
 				
 				// Set Client for this session
 				session.setAttribute("clientID", resultClient.getInt(1));
-				
-				
+						
 				// Redirect to client's home page
 				toPage = request.getRequestDispatcher("index-client.jsp");
-
+				toPage.forward(request, response);
 				
 				System.out.println("Ada client");
 				
@@ -126,12 +125,11 @@ public class LoginHandler extends HttpServlet {
 			else if (loginCommittee) {
 				
 				// Set Client for this session
-				session.setAttribute("committeeID", resultCommittee.getInt(1));
-				
+				session.setAttribute("committeeID", resultCommittee.getInt(1));		
 				
 				// Redirect to client's home page
 				toPage = request.getRequestDispatcher("index-committee.jsp");
-
+				toPage.forward(request, response);
 				
 				System.out.println("Ada committee");
 				
@@ -144,13 +142,13 @@ public class LoginHandler extends HttpServlet {
 					
 			//Redirect back to login page (non-existent client)
 			toPage = request.getRequestDispatcher("login.jsp");
-		
+			toPage.forward(request, response);
 					
 			System.out.println("client/committee does not exist");
 			
 			}
 				
-			toPage.forward(request, response);
+			
 				
 		
 		} catch (Exception e) {

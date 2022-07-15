@@ -106,7 +106,7 @@ public class BookingHandler extends HttpServlet {
 		request.setAttribute("paymentTotal", paymentTotal);
 		
 		// To payment page
-		RequestDispatcher toPaymentPage = request.getRequestDispatcher("new-payment.jsp");
+		RequestDispatcher toPaymentPage = request.getRequestDispatcher("create-payment.jsp");
 		toPaymentPage.forward(request, response);
 	
 	
@@ -140,7 +140,7 @@ public class BookingHandler extends HttpServlet {
 		request.setAttribute("paymentTotal", paymentTotal);
 		
 		// To booking page
-		RequestDispatcher toBookingPage = request.getRequestDispatcher("new-booking.jsp");
+		RequestDispatcher toBookingPage = request.getRequestDispatcher("create-booking.jsp");
 		toBookingPage.forward(request, response);
 	
 	
@@ -161,22 +161,13 @@ public class BookingHandler extends HttpServlet {
 		
 		// Get attributes
 		int bookingID = Integer.parseInt(request.getParameter("bookingID"));
-		String getPath = request.getParameter("path");
 		
 		// Send to DAO
 		animalOrderDAO.deleteAnimalOrderByBooking(bookingID);
 		bookingDAO.deleteBooking(bookingID);
 		
 		// To 
-		RequestDispatcher dispatcher = null;
-		
-		if (getPath.equals("home")) 
-			dispatcher = request.getRequestDispatcher("client-homepage.jsp");
-		else if (getPath.equals("profil"))
-			dispatcher = request.getRequestDispatcher("client-profile.jsp");
-			
-			
-			
+		RequestDispatcher dispatcher = request.getRequestDispatcher("index-client.jsp");
 		dispatcher.forward(request, response);
 	
 	}

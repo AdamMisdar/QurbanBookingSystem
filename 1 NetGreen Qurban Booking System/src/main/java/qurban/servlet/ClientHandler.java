@@ -97,10 +97,16 @@ public class ClientHandler extends HttpServlet {
 			throws ServletException, SQLException, IOException {
 		
 		// Get values from JSP
+		System.out.println(request.getParameter("clientID")); 
+		System.out.println(request.getParameter("clientBirthDate")); 
+		System.out.println(request.getParameter("clientFullName"));
+		System.out.println(request.getParameter("clientAddress"));
+		
 		int clientID = Integer.parseInt(request.getParameter("clientID"));
 		String clientFullName = request.getParameter("clientFullName");
 		String clientAddress = request.getParameter("clientAddress");
 		String clientPhoneNum = request.getParameter("clientPhoneNum");
+		
 		Date clientBirthDate = Date.valueOf(request.getParameter("clientBirthDate"));
 		String clientEmail = request.getParameter("clientEmail");
 		String clientPassword = request.getParameter("clientPassword");
@@ -112,8 +118,7 @@ public class ClientHandler extends HttpServlet {
 		clientDAO.updateClientDetails(exisitingClient);
 		
 		// Redirect back to view account page
-		session.setAttribute("clientID", clientID);
-		response.sendRedirect("view-account-client.jsp");
+		response.sendRedirect("view-client-account.jsp");
 
 	}
 	
@@ -128,7 +133,7 @@ public class ClientHandler extends HttpServlet {
 		clientDAO.deleteClient(clientID);
 		
 		// Redirect to home page
-		response.sendRedirect("homepage.html");
+		response.sendRedirect("login.jsp");
 		
 	}
 	

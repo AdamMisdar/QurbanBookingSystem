@@ -48,7 +48,6 @@
 	</form><br><br>
 	
 	Sudah ada akaun? <a href="login.jsp">Log Masuk</a>
-	
 
 </body>
 </html>

@@ -204,7 +204,7 @@ input[type="submit"]:hover{
      	 <h1>Log Masuk</h1>
       	<div class="containerform">
       
-      		<form method="post" action="LoginHandler">
+      		<form method="post" action="">
       
        	 	<div class="txt_field">
           		 <input type="text" name="email" required>
@@ -219,8 +219,7 @@ input[type="submit"]:hover{
        		 </div>
         
        		 <div class="pass">Terlupa Kata Laluan?</div>
-       		 		<input type="hidden" name="action" value="login">
-       			 	<input type="submit" value="Log Masuk" onclick="checkLogin()">
+       			 	<input type="submit" value="Log Masuk" formaction="LoginHandler?action=login" onclick="">
         	<div class="signup_link">
          		 Tiada akaun? <a href="client-registration.jsp">Cipta Akaun Baru</a>
         	</div>

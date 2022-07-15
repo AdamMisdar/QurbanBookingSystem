@@ -5,9 +5,9 @@ import java.sql.*;
 public class ConnectionManager {
 	
 	// Postgresql database
-	private static String dbURL = "jdbc:postgresql://ec2-3-223-169-166.compute-1.amazonaws.com/dc7heto636d5re?sslmode=require";
-	private static String username = "dfjpxugsmxched";
-	private static String password = "497a88663f8127119beaf412fe5f5bd8e31e7a671f6602afe00255356d0c40c0";
+	private static String dbURL = "jdbc:postgresql://ec2-3-223-169-166.compute-1.amazonaws.com:5432/dfcvvjuvqh9c4k?sslmode=require";
+	private static String username = "mledzxdxfykycr";
+	private static String password = "9d9f02cdbcf786cb80ebf7cdbcabfa637a4c84994673ed9256a9e83e39131589";
 	
 /*	// Oracle database
 	private static String dbURL = "jdbc:oracle:thin:@localhost:1521:xe";
@@ -20,9 +20,6 @@ public class ConnectionManager {
 		try {
 			// Postgresql database
 			Class.forName("org.postgresql.Driver");
-			
-			// Oracle database
-			//Class.forName("oracle.jdbc.driver.OracleDriver");
 			connection = DriverManager.getConnection(dbURL, username, password);
 			
 		} catch (SQLException e) {
