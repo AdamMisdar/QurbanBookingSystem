@@ -10,39 +10,38 @@ public class AnimalOrderDAO {
 	Connection connection = null;
 	
 	// Animal Order attributes
-	int animalOrderID;
-	String animalPartType;		// Jenis haiwan untuk 1 bahagian
+	int animalOrderID;			// PK
 	String dependentName;		// Nama yg dikorbankan
-	int bookingID;
+	int bookingID;				// FK
+	int animalDetailsID;		// FK
 	
 	// CRUD ----------------------------------------------------------
 	
-	// Create Animal Order (Tambah 1 Bahagian + 1 Nama) -List? 
-	// DALAM BOOKING, BUAT SATU ATTRIBUTE TU RETRIEVE LIST
+	// Create Animal Order
 	public void addAnimalOrder(AnimalOrder newAnimalOrder) throws SQLException {
 		
 		try {
 			
 			// Get connection
 			connection = ConnectionManager.getConnection();
-			
+					
 			// Get values
-			animalPartType = newAnimalOrder.getAnimalPartType();
 			dependentName = newAnimalOrder.getDependentName();
+			animalDetailsID = newAnimalOrder.getAnimalDetailsID();
 			bookingID = newAnimalOrder.getBookingID();
 			
-			// Prepare SQL Statement
+			// Prepare SQL Statement		
 			PreparedStatement addSQL = connection.prepareStatement
 			( "INSERT INTO animalorder "
-			+ "(animalorderid, animalparttype, dependentname, bookingID) "
-			+ "VALUES (sequence_booking.nextval, ?, ?, ?)");
+			+ "(dependentname,  animaldetailsid, bookingID) "
+			+ "VALUES (?, ?, ?)");
 			
 			// Set ? values
-			addSQL.setString(1, animalPartType);
-			addSQL.setString(2, dependentName);
+			addSQL.setString(1, dependentName);
+			addSQL.setInt(2, animalDetailsID);
 			addSQL.setInt(3, bookingID);
 			
-			// Exceute SQL
+			// Execute SQL
 			addSQL.executeUpdate();
 			
 			// Check SQL

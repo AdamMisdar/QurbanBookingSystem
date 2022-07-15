@@ -6,6 +6,7 @@ public class AnimalOrder {
 	String animalPartType;		// Jenis haiwan untuk 1 bahagian
 	String dependentName;		// Nama yg dikorbankan
 	int bookingID;
+	int animalDetailsID;
 	
 	// Constructors -------------------------------
 	
@@ -15,20 +16,22 @@ public class AnimalOrder {
 	}
 	
 	// with ID
-	public AnimalOrder(int animalOrderID, String animalPartType, String dependentName, int bookingID) {
+	public AnimalOrder(int animalOrderID, String animalPartType, String dependentName, int bookingID, int animalDetailsID) {
 		
 		this.animalOrderID = animalOrderID;
 		this.animalPartType = animalPartType;
 		this.dependentName = dependentName;
 		this.bookingID = bookingID;
+		this.animalDetailsID = animalDetailsID;
 	}
 	
 	// without ID
-	public AnimalOrder(String animalPartType, String dependentName, int bookingID) {
+	public AnimalOrder(String animalPartType, String dependentName, int bookingID, int animalDetailsID) {
 		
 		this.animalPartType = animalPartType;
 		this.dependentName = dependentName;
 		this.bookingID = bookingID;
+		this.animalDetailsID = animalDetailsID;
 	}
 	
 	// Setters ---------------------------
@@ -48,6 +51,10 @@ public class AnimalOrder {
 		this.bookingID = bookingID;
 	}
 	
+	public void setAnimalDetailsID(int animalDetailsID) {
+		this.animalDetailsID = animalDetailsID;
+	}
+	
 	// Getters ------------------------------
 	public int getAnimalOrderID() {
 		return animalOrderID;
@@ -63,6 +70,10 @@ public class AnimalOrder {
 
 	public int getBookingID() {
 		return bookingID;
+	}
+	
+	public int getAnimalDetailsID() {
+		return animalDetailsID;
 	}
 
 	

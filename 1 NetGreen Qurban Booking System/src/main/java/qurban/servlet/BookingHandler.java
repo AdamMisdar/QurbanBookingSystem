@@ -161,14 +161,23 @@ public class BookingHandler extends HttpServlet {
 		
 		// Get attributes
 		int bookingID = Integer.parseInt(request.getParameter("bookingID"));
+		String getPath = request.getParameter("path");
 		
 		// Send to DAO
 		animalOrderDAO.deleteAnimalOrderByBooking(bookingID);
 		bookingDAO.deleteBooking(bookingID);
 		
-		// To homepage
-		RequestDispatcher toHomePage = request.getRequestDispatcher("homepage.jsp");
-		toHomePage.forward(request, response);
+		// To 
+		RequestDispatcher dispatcher = null;
+		
+		if (getPath.equals("home")) 
+			dispatcher = request.getRequestDispatcher("client-homepage.jsp");
+		else if (getPath.equals("profil"))
+			dispatcher = request.getRequestDispatcher("client-profile.jsp");
+			
+			
+			
+		dispatcher.forward(request, response);
 	
 	}
 

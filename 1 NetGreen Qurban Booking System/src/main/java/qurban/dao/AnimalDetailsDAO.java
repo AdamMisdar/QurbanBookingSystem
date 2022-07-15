@@ -10,10 +10,9 @@ public class AnimalDetailsDAO {
 	Connection connection = null;
 	
 	// Animal Details attributes
-	private int animalDetailsID;
+	private int animalDetailsID;	// PK
 	private String animalType;		// Jenis haiwan
 	private double animalPrice;		// Harga seekor
-	private String supplierName;	// Nama pembekal
 	
 	// CRUD -----------------------------------------------------------------
 	
@@ -28,19 +27,17 @@ public class AnimalDetailsDAO {
 			// Get values
 			animalType = newAnimal.getAnimalType();
 			animalPrice = newAnimal.getAnimalPrice();
-			supplierName = newAnimal.getSupplierName();
 				
 			// Prepare SQL Statement
 			PreparedStatement createSQL = connection.prepareStatement
-			( "INSERT INTO animaldetails"
-			+ "(animaldetailsid, animaltype, animalprice, suppliername)"
-			+ "VALUES (sequence_animaldetails.nextval, ?, ?, ?)");
-				
+			( "INSERT INTO animaldetails "
+			+ "(animaltype, animalprice) "
+			+ "VALUES (?, ?)");
+			
 			// Set ? values
 			createSQL.setString(1, animalType);
 			createSQL.setDouble(2, animalPrice);
-			createSQL.setString(3, supplierName);
-				
+			
 			// Execute SQL
 			createSQL.executeUpdate();
 				
@@ -62,19 +59,17 @@ public class AnimalDetailsDAO {
 			
 			// Get values
 			animalPrice = existingAnimal.getAnimalPrice();
-			supplierName = existingAnimal.getSupplierName();
 			animalDetailsID = existingAnimal.getAnimalDetailsID();
 			
 			// Prepare SQL Statement
 			PreparedStatement updateSQL = connection.prepareStatement
 			( "UPDATE animaldetails "
-			+ "SET animalPrice = ?, supplierName = ? "
+			+ "SET animalprice = ? "
 			+ "WHERE animaldetailsid = ?");
 			
 			// Set ? Values
 			updateSQL.setDouble(1, animalPrice);
-			updateSQL.setString(2, supplierName);
-			updateSQL.setInt(3, animalDetailsID);
+			updateSQL.setInt(2, animalDetailsID);
 			
 			// Execute SQL
 			updateSQL.executeUpdate();
@@ -114,6 +109,7 @@ public class AnimalDetailsDAO {
 		}
 		
 	}
+
 	
 	
 }

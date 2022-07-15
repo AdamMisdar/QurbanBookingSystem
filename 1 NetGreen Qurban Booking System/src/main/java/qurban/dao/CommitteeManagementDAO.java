@@ -10,20 +10,22 @@ public class CommitteeManagementDAO {
 	Connection connection = null;
 	
 	// Committee-Management Attributes
-	int committeeID;
+	int committeeID;				// PK
 	String committeeFullName;
 	String committeePhoneNum;
 	Date committeeBirthDate;
 	String committeeAddress;
-	int managerID;
+	int managerID;					// FK
 	String committeeEmail;
 	String committeePassword;
+	// -----------------------
 	String managementPosition;
 	
 	// CRUD -----------------------------------------------
 	
 	// Create/Register New Committee-Management Account
-	public void createCommitteeManagement(Management newManagement) throws SQLException{
+	// Only Manager can do this
+	public void createManagement(Management newManagement) throws SQLException{
 		
 		try {
 			
@@ -41,34 +43,23 @@ public class CommitteeManagementDAO {
 			managementPosition = newManagement.getManagementPosition();
 			
 			// Prepare SQL Statements
-			PreparedStatement createCommitteeSQL = connection.prepareStatement
-			( "INSERT INTO committee "
-			+ "(committeeid, committeefullname, committeephonenum committeebirthdate, "
-			+ "committeeaddress, managerID, committeeemail, committeepassword) "
-			+ "VALUES (sequece_committee.nextval, ?, ?, ?, ?, ?, ?, ?)");
-			
 			PreparedStatement createManagementSQL = connection.prepareStatement
 			( "INSERT INTO management "
-			+ "(committeeid, managementposition) "
-			+ "VALUES (sequece_committee.currval, ?)");
+			+ "(committeefullname, committeephonenum, committeebirthdate, "
+			+ "committeeaddress, managerID, committeeemail, committeepassword, managementposition) "
+			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			
 			// Set ? values
-			// ? Committee
-			createCommitteeSQL.setString(1, committeeFullName);
-			createCommitteeSQL.setString(2, committeePhoneNum);
-			createCommitteeSQL.setDate(3, committeeBirthDate);
-			createCommitteeSQL.setString(4, committeeAddress);
-			createCommitteeSQL.setInt(5, managerID);
-			createCommitteeSQL.setString(6, committeeEmail);
-			createCommitteeSQL.setString(7, committeePassword);
-			
-			// ? Management
-			createManagementSQL.setString(1, managementPosition);
+			createManagementSQL.setString(1, committeeFullName);
+			createManagementSQL.setString(2, committeePhoneNum);
+			createManagementSQL.setDate(3, committeeBirthDate);
+			createManagementSQL.setString(4, committeeAddress);
+			createManagementSQL.setInt(5, managerID);
+			createManagementSQL.setString(6, committeeEmail);
+			createManagementSQL.setString(7, committeePassword);
+			createManagementSQL.setString(8, managementPosition);
 			
 			// Execute SQLs
-			createCommitteeSQL.executeUpdate();
-			System.out.println(createCommitteeSQL);
-			
 			createManagementSQL.executeUpdate();
 			System.out.println(createManagementSQL);
 			
@@ -79,7 +70,53 @@ public class CommitteeManagementDAO {
 	}
 	
 	// Update Committee Management Details (Update Existing Committee)
-	public void updateCommitteeManagement(Management existingManagement) throws SQLException {
+	// Management can do this themselves
+	public void updateManagement(Management existingManagement) throws SQLException {
+		
+		try {
+			
+			// Get connection
+			connection = ConnectionManager.getConnection();
+			
+			// Get values
+			committeeID = existingManagement.getCommitteeID();
+			committeeFullName = existingManagement.getCommitteeFullName();
+			committeePhoneNum = existingManagement.getCommitteePhoneNum();
+			committeeBirthDate = existingManagement.getCommitteeBirthDate();
+			committeeAddress = existingManagement.getCommitteeAddress();
+			committeeEmail = existingManagement.getCommitteeEmail();
+			committeePassword = existingManagement.getCommitteePassword();
+			
+			// Prepare SQL Statement
+			PreparedStatement updateManagementSQL = connection.prepareStatement
+			( "UPDATE management "
+			+ "SET committeefullname = ?, committeephonenum = ?, committeebirthdate = ?, "
+			+ "committeeaddress = ?, committeeemail = ?, committeePassword = ? "
+			+ "WHERE committeeid = ?");
+
+			// Set ? Values
+			updateManagementSQL.setString(1, committeeFullName);
+			updateManagementSQL.setString(2, committeePhoneNum);
+			updateManagementSQL.setDate(3, committeeBirthDate);
+			updateManagementSQL.setString(4, committeeAddress);
+			updateManagementSQL.setString(5, committeeEmail);
+			updateManagementSQL.setString(6, committeePassword);
+			updateManagementSQL.setInt(7, committeeID);
+			
+			
+			// Execute SQL
+			updateManagementSQL.executeUpdate();
+			System.out.println(updateManagementSQL);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// Update Committee Management Details (Update Existing Committee)
+	// Only Manager can do this
+	public void updateManagement_ManagerOnly(Management existingManagement) throws SQLException {
 		
 		try {
 			
@@ -98,37 +135,25 @@ public class CommitteeManagementDAO {
 			managementPosition = existingManagement.getManagementPosition();
 			
 			// Prepare SQL Statement
-			PreparedStatement updateCommitteeSQL = connection.prepareStatement
-			( "UPDATE committee "
-			+ "SET committeefullname = ?, committeephonenum = ?, committeebirthdate = ?, "
-			+ "committeeaddress = ?, managerid = ?, committeeemail = ?, committeePassword = ? "
-			+ "WHERE committeeid = ?");
-			
 			PreparedStatement updateManagementSQL = connection.prepareStatement
 			( "UPDATE management "
-			+ "SET managementposition = ? "
+			+ "SET committeefullname = ?, committeephonenum = ?, committeebirthdate = ?, "
+			+ "committeeaddress = ?, managerid = ?, committeeemail = ?, committeePassword = ?, managementposition = ? "
 			+ "WHERE committeeid = ?");
-			
+
 			// Set ? Values
-			// ? Committee
-			updateCommitteeSQL.setString(1, committeeFullName);
-			updateCommitteeSQL.setString(2, committeePhoneNum);
-			updateCommitteeSQL.setDate(3, committeeBirthDate);
-			updateCommitteeSQL.setString(4, committeeAddress);
-			updateCommitteeSQL.setInt(5, managerID);
-			updateCommitteeSQL.setString(6, committeeEmail);
-			updateCommitteeSQL.setString(7, committeePassword);
-			updateCommitteeSQL.setInt(8, committeeID);
-			
-			// ? Management
-			updateManagementSQL.setString(1, managementPosition);
-			updateManagementSQL.setInt(2, committeeID);
+			updateManagementSQL.setString(1, committeeFullName);
+			updateManagementSQL.setString(2, committeePhoneNum);
+			updateManagementSQL.setDate(3, committeeBirthDate);
+			updateManagementSQL.setString(4, committeeAddress);
+			updateManagementSQL.setInt(5, managerID);
+			updateManagementSQL.setString(6, committeeEmail);
+			updateManagementSQL.setString(7, committeePassword);
+			updateManagementSQL.setString(8, managementPosition);
+			updateManagementSQL.setInt(9, committeeID);
 			
 			
 			// Execute SQL
-			updateCommitteeSQL.executeUpdate();
-			System.out.println(updateCommitteeSQL);
-			
 			updateManagementSQL.executeUpdate();
 			System.out.println(updateManagementSQL);
 			
@@ -138,9 +163,8 @@ public class CommitteeManagementDAO {
 		}
 	}
 	
-	// Delete Committee-Management Account
-	// TENGOK BALIK, CASCADE DELETE SEMUA BENDE ALAH
-	public void deleteCommitteeManagement(int committeeID) throws SQLException {
+	// Delete Management Account (Manager Only)
+	public void deleteManagement(int committeeID) throws SQLException {
 		
 		try {
 			
@@ -152,20 +176,12 @@ public class CommitteeManagementDAO {
 			( "DELETE FROM management "
 			+ "WHERE committeeid = ?");
 			
-			PreparedStatement deleteCommitteeSQL = connection.prepareStatement
-			( "DELETE FROM committee "
-			+ "WHERE committeeid = ?");
-			
 			// Set ? values
 			deleteManagementSQL.setInt(1, committeeID);
-			deleteCommitteeSQL.setInt(1, committeeID);
 			
 			// Execute SQL
 			deleteManagementSQL.executeUpdate();
 			System.out.println(deleteManagementSQL);
-			
-			deleteCommitteeSQL.executeUpdate();
-			System.out.println(deleteCommitteeSQL);
 			
 			
 		} catch (Exception e) {

@@ -4,25 +4,22 @@ public class AnimalDetails {
 	private int animalDetailsID;	
 	private String animalType;		// Jenis haiwan
 	private double animalPrice;		// Harga seekor
-	private String supplierName;	// Nama pembekal
 	
 	// Constructor -------------------------------------
 	
 	// With ID
-	public AnimalDetails(int animalDetailsID, String animalType, double animalPrice, String supplierName) {
+	public AnimalDetails(int animalDetailsID, String animalType, double animalPrice) {
 
 		this.animalDetailsID = animalDetailsID;
 		this.animalType = animalType;
 		this.animalPrice = animalPrice;
-		this.supplierName = supplierName;
 	}
 	
 	// Without ID
-	public AnimalDetails(String animalType, double animalPrice, String supplierName) {
+	public AnimalDetails(String animalType, double animalPrice) {
 		
 		this.animalType = animalType;
 		this.animalPrice = animalPrice;
-		this.supplierName = supplierName;
 	}
 	
 	// Default
@@ -44,10 +41,6 @@ public class AnimalDetails {
 	public void setAnimalPrice(double animalPrice) {
 		this.animalPrice = animalPrice;
 	}
-
-	public void setSupplierName(String supplierName) {
-		this.supplierName = supplierName;
-	}
 	
 	// Getters ---------------------------------
 	
@@ -61,10 +54,6 @@ public class AnimalDetails {
 
 	public double getAnimalPrice() {
 		return animalPrice;
-	}
-
-	public String getSupplierName() {
-		return supplierName;
 	}
 
 }

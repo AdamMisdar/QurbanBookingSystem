@@ -79,6 +79,6 @@
 	</c:forEach>
 	</table>
 	
-	<button onclick="location.href='homepage.jsp'">Ke Laman Utama</button>
+	<button onclick="location.href='client-homepage.jsp'">Ke Laman Utama</button>
 </body>
 </html>

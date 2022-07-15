@@ -65,10 +65,9 @@ public class AnimalDetailsHandler extends HttpServlet {
 		// Get values from JSP
 		String animalType = request.getParameter("animalType");
 		double animalPrice = Double.parseDouble(request.getParameter("animalPrice"));
-		String supplierName = request.getParameter("supplierName");
 		
 		// Create New AnimalDetails Object
-		AnimalDetails newAnimal = new AnimalDetails(animalType, animalPrice, supplierName);
+		AnimalDetails newAnimal = new AnimalDetails(animalType, animalPrice);
 		
 		// Send to DAO
 		animalDetailsDAO.createAnimalDetails(newAnimal);
@@ -84,14 +83,12 @@ public class AnimalDetailsHandler extends HttpServlet {
 		// Get values from JSP
 		int animalDetailsID = Integer.parseInt(request.getParameter("animalDetailsID"));
 		double animalPrice = Double.parseDouble(request.getParameter("animalPrice"));
-		String supplierName = request.getParameter("supplierName");
 		
 		// Create AnimalDetails Object
 		AnimalDetails existingAnimal = new AnimalDetails();
 		
 		existingAnimal.setAnimalDetailsID(animalDetailsID);
 		existingAnimal.setAnimalPrice(animalPrice);
-		existingAnimal.setSupplierName(supplierName);
 		
 		// Send to DAO
 		animalDetailsDAO.updateAnimalDetails(existingAnimal);

@@ -10,10 +10,10 @@ public class BookingDAO {
 	Connection connection = null;
 	
 	// Booking attributes
-	private int bookingID;
+	private int bookingID;			// PK
 	private Date bookingDate;
-	private int clientID;
-	private int committeeID;
+	private int clientID;			// FK
+	private int committeeID;		// FK
 	
 	// CRUD ---------------------------------------------------------
 	
@@ -26,6 +26,7 @@ public class BookingDAO {
 			// Get connection
 			connection = ConnectionManager.getConnection();
 			
+			
 			// Get values
 			bookingDate = newBooking.getBookingDate();
 			clientID = newBooking.getClientID();
@@ -33,8 +34,8 @@ public class BookingDAO {
 			// Prepare SQL Statement
 			PreparedStatement createSQL = connection.prepareStatement
 			( "INSERT INTO booking "
-			+ "(bookingid, bookingdate, clientid) "
-			+ "VALUES (sequence_booking.nextval, ?, ?)");
+			+ "(bookingdate, clientid) "
+			+ "VALUES (?, ?)");
 			
 			// Set ? values
 			createSQL.setDate(1, bookingDate);
@@ -72,7 +73,7 @@ public class BookingDAO {
 		return booking_id;
 	}
 	
-	// Delete Booking (Committee)
+	// Delete Booking (Committee) (kene pakai CASCADE DELETE)
 	public void deleteBooking(int bookingID) {
 		
 		try {

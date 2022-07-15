@@ -78,6 +78,7 @@ public class AnimalOrderHandler extends HttpServlet {
 		String animalPartType = request.getParameter("animalPartType");		// Jenis haiwan untuk 1 bahagian
 		String dependentName = request.getParameter("dependentName");		// Nama yg dikorbankan
 		int bookingID = Integer.parseInt(request.getParameter("bookingID"));
+		int animalDetailsID = Integer.parseInt(request.getParameter("animalDetailsID"));
 		
 		// Create New Animal Order Object
 		AnimalOrder newAnimalOrder = new AnimalOrder();
@@ -85,6 +86,7 @@ public class AnimalOrderHandler extends HttpServlet {
 		newAnimalOrder.setAnimalPartType(animalPartType);
 		newAnimalOrder.setDependentName(dependentName);
 		newAnimalOrder.setBookingID(bookingID);
+		newAnimalOrder.setAnimalDetailsID(animalDetailsID);
 		
 		// Send to DAO
 		animalOrderDAO.addAnimalOrder(newAnimalOrder);

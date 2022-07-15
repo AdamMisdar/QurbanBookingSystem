@@ -49,12 +49,12 @@
 	
 	
 	<h1>Tempahan Baru</h1>
-	<p>Booking ID : <%=booking_id%></p>
-	<p>Client ID : <%=client_id%></p>
+	<p>ID Tempahan : <%=booking_id%></p>
+	<p>ID Klien : <%=client_id%></p>
 
 	<%-- SQL QUERY - DISPLAY ALL ANIMAL DETAILS --%>
-	<sql:query dataSource="${qurbanDatabase}" var="result">
-	   SELECT animaltype, animalprice FROM animaldetails
+	<sql:query dataSource="${qurbanDatabase}" var="animalResult">
+	   SELECT * FROM animaldetails
 	</sql:query>
 	
 	
@@ -70,11 +70,12 @@
 			<tr>
 				<td>Jenis Haiwan: </td>
 				<td>	
-					<select name="animalPartType">
-						<c:forEach var="animal" items="${result.rows}">
-							<option value="${animal.animaltype}"><c:out value="${animal.animaltype}"/></option>
+					<select name="animalDetailsID">
+						<c:forEach var="animal" items="${animalResult.rows}">
+							<option value="${animal.animaldetailsid}"><c:out value="${animal.animaltype}"/></option>
 						</c:forEach>
 					</select>
+						
 				</td>
 			</tr>
 			<tr>
@@ -106,7 +107,7 @@
 				<th>Jenis Haiwan</th>
 				<th>Harga 1 Bahagian Haiwan (RM)</th>
 			</tr>
-		<c:forEach var="animalDetails" items="${result.rows}">
+		<c:forEach var="animalDetails" items="${animalResult.rows}">
 			<tr>
 				<td><c:out value="${animalDetails.animalType}" /></td>
 				<td>
@@ -227,7 +228,7 @@
 		<input type="hidden" name="bookingID" value="<%=booking_id%>">
 		<input type="hidden" name="clientID" value="<%=client_id%>">
 	
-		<button name="cancel" formaction="BookingHandler?action=cancelBooking" onclick="cancelConfirm()">Batalkan Tempahan</button>
+		<button name="cancel" formaction="BookingHandler?action=cancelBooking&path=home" onclick="cancelConfirm()">Batalkan Tempahan</button>
 		<button type="submit" formaction="BookingHandler?action=toInvoice" onclick="confirmBooking()">Ke Bayaran</button>
 </form>
 	

@@ -10,7 +10,7 @@ public class ClientDAO {
 	Connection connection = null;
 	
 	// Client Attributes
-	private int clientID;
+	private int clientID;				// PK
 	private String clientFullName;
 	private String clientAddress;
 	private String clientPhoneNum;
@@ -39,8 +39,8 @@ public class ClientDAO {
 			// Prepare SQL Statement
 			PreparedStatement createSQL = connection.prepareStatement
 			( "INSERT INTO client "
-			+ "(clientid, clientfullname, clientaddress, clientphonenum clientbirthdate, clientemail, clientpassword) "
-			+ "VALUES (sequence_client.nextval, ?, ?, ?, ?, ?, ?)");
+			+ "(clientfullname, clientaddress, clientphonenum, clientbirthdate, clientemail, clientpassword) "
+			+ "VALUES (?, ?, ?, ?, ?, ?)");
 			
 			// Set ? values
 			createSQL.setString(1, clientFullName);
