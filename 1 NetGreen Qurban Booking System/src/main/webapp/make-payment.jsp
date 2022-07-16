@@ -293,7 +293,7 @@
 			<tr>
 				<th>Jumlah Bayaran: RM </th>
 				<th>
-				<fmt:formatNumber type = "number" maxFractionDigits = "3" value = "<%=totalPayment%>" />
+				<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "<%=totalPayment%>" />
 				<input type="hidden" name="paymentTotal" value="<%=totalPayment%>">
 				</th>
 			</tr>

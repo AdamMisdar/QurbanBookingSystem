@@ -344,16 +344,13 @@
 				<td><c:out value="${animalDetails.animalType}" /></td>
 				<td>
 				<c:if test="${animalDetails.animalType == 'Lembu'}">
-					<c:out value="${animalDetails.animalprice/7} (seekor RM ${animalDetails.animalprice})"/>
-					<input type="hidden" name="cowPrice" value="${animalDetails.animalprice/7}">
+					<fmt:formatNumber type = "number" maxFractionDigits = "2" value ="${animalDetails.animalprice/7}" /> (seekor RM <fmt:formatNumber type = "number" maxFractionDigits = "2" value ="${animalDetails.animalprice}" />)
 				</c:if>
 				<c:if test="${animalDetails.animalType == 'Unta'}">
-					<c:out value="${animalDetails.animalprice/7} (seekor RM ${animalDetails.animalprice})"/>
-					<input type="hidden" name="camelPrice" value="${animalDetails.animalprice/7}">
+					<fmt:formatNumber type = "number" maxFractionDigits = "2" value ="${animalDetails.animalprice/7}" /> (seekor RM <fmt:formatNumber type = "number" maxFractionDigits = "2" value ="${animalDetails.animalprice}" />)
 				</c:if>
 				<c:if test="${animalDetails.animalType == 'Kambing'}">
-					<c:out value="${animalDetails.animalprice}"/>
-					<input type="hidden" name="goatPrice" value="${animalDetails.animalprice}">
+					<fmt:formatNumber type = "number" maxFractionDigits = "2" value ="${animalDetails.animalprice}" />
 				</c:if>
 				</td>
 			</tr>
@@ -404,17 +401,17 @@
 			</td>
 			<td><%
 					if((resultOrder.getString("animaltype")).equalsIgnoreCase("Lembu")) { %>		
-						<fmt:formatNumber type = "number" maxFractionDigits = "3" value = "<%=(resultOrder.getDouble("animalprice")/7)%>" /> 	<%
+						<fmt:formatNumber type = "number" maxFractionDigits = "2" value ='<%=resultOrder.getDouble("animalprice")/7%>' /> 	<%
 						
 						totalPayment += (resultOrder.getDouble("animalprice")/7);	
 					
 					} else if ((resultOrder.getString("animaltype")).equalsIgnoreCase("Kambing")) { %>		
-						<fmt:formatNumber type = "number" maxFractionDigits = "3" value = "<%=(resultOrder.getDouble("animalprice")/7)%>" />		<%
+						<fmt:formatNumber type = "number" maxFractionDigits = "2" value ='<%=resultOrder.getDouble("animalprice")%>' />		<%
 					
 						totalPayment += resultOrder.getDouble("animalprice");
 					
 					} else if ((resultOrder.getString("animaltype")).equalsIgnoreCase("Unta")) { %> 
-						<fmt:formatNumber type = "number" maxFractionDigits = "3" value = "<%=(resultOrder.getDouble("animalprice")/7)%>" />	<%
+						<fmt:formatNumber type = "number" maxFractionDigits = "2" value ='<%=resultOrder.getDouble("animalprice")/7%>' />	<%
 						
 						totalPayment += (resultOrder.getDouble("animalprice")/7);
 					}
@@ -433,7 +430,10 @@
 		<tr>
 			<td></td>
 			<th>Jumlah (RM)</th>
-			<th><%=totalPayment%><input type="hidden" id="paymentTotal" name="paymentTotal" value="<%=totalPayment%>"></th>
+			<th>
+				<fmt:formatNumber type = "number" maxFractionDigits = "2" value ='<%=totalPayment%>' />
+				<input type="hidden" id="paymentTotal" name="paymentTotal" value="<%=totalPayment%>">
+			</th>
 		</tr>
 	</table>
 	<br>

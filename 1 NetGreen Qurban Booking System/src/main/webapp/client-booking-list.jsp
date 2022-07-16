@@ -318,7 +318,7 @@ body{
 		<tr>
 			<td><c:out value="<%=counter%>"/></td>
 			<td><c:out value="${booking.bookingdate}"/></td>
-			<td><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${booking.paymenttotal}" /></td>
+			<td><fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${booking.paymenttotal}" /></td>
 			<td>
                 <button class="button" onclick="location.href='BookingHandler?action=viewBooking&bookingID=${booking.bookingid}'" style="background-color: #2c752f; color: #fff;">Lihat&nbsp;&nbsp;<i class="bi bi-eye-fill"></i></button>
 			</td>

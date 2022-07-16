@@ -110,7 +110,7 @@ public class BookingHandler extends HttpServlet {
 		request.setAttribute("paymentTotal", paymentTotal);
 		
 		// To payment page
-		RequestDispatcher toPaymentPage = request.getRequestDispatcher("create-payment.jsp");
+		RequestDispatcher toPaymentPage = request.getRequestDispatcher("make-payment.jsp");
 		toPaymentPage.forward(request, response);
 	
 	

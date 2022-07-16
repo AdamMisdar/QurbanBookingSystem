@@ -332,14 +332,12 @@
 			<th>Nama</th>
 			<th>Email</th>
 			<th>No Telefon</th>
-			<th>Alamat</th>
 		</tr>
 	<c:forEach var="client" items="${clientResult.rows}">
 		<tr>
 			<td><c:out value="${client.clientfullname}"/></td>
 			<td><c:out value="${client.clientemail}"/></td>
 			<td><c:out value="${client.clientphonenum}"/></td>
-			<td><c:out value="${client.clientaddress}"/></td>
 		</tr>
 	</c:forEach>	
 	</table><br>
@@ -360,13 +358,13 @@
 			<td><c:out value="${animalOrder.animaltype}"/></td>
 			<td>
 				<c:if test="${animalOrder.animaltype == 'Lembu'}">
-					<fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${animalOrder.animalprice/7}" />
+					<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${animalOrder.animalprice/7}" />
 				</c:if>
 				<c:if test="${animalOrder.animaltype == 'Unta'}">
-					<fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${animalOrder.animalprice/7}" />
+					<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${animalOrder.animalprice/7}" />
 				</c:if>
 				<c:if test="${animalOrder.animaltype == 'Kambing'}">
-					<fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${animalOrder.animalprice}" />
+					<fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${animalOrder.animalprice}" />
 				</c:if>
 			</td>	
 		</tr>
@@ -374,7 +372,7 @@
 		<tr>
 			<td></td>
 			<th>Jumlah (RM)</th>
-			<th><%=paymentTotal%></th>
+			<th><fmt:formatNumber type = "number" maxFractionDigits = "2" value = "<%=paymentTotal%>" /></th>
 		</tr>
 	</table><br><br>
 	

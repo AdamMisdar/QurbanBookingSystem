@@ -85,7 +85,7 @@
 		</tr>
 		<tr>
 			<th>Jumlah Harga (RM)</th>
-			<td><c:out value="${booking.paymenttotal}" /></td>
+			<td><fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${booking.paymenttotal}" /></td>
 		</tr>
 	</c:forEach>	
 	</table>
