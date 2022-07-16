@@ -348,7 +348,7 @@
 
     <table>
 		<tr>
-			<th>Nama Korban</th>
+			<th>Nama Tanggungan</th>
 			<th>Bahagian</th>
 			<th>Harga Sebahagian</th>
 		</tr>

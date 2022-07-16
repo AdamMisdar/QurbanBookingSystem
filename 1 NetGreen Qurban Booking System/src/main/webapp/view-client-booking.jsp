@@ -103,11 +103,23 @@
 		<tr>
 			<th>Nama Tanggungan</th>
 			<th>Bahagian</th>
+			<th>Harga 1 Bahagian</th>
 			<th>Tindakan</th>
 		</tr>
 		<tr>
 			<td><c:out value="${animalOrder.dependentname}" /></td>
 			<td><c:out value="${animalOrder.animaltype}" /><input type="hidden" name="animalOrderID" value="${animalOrder.animalorderid}"></td>
+			<td>
+				<c:if test="${animalOrder.animalType == 'Lembu'}">
+					<fmt:formatNumber type = "number" maxFractionDigits = "2" value ="${animalOrder.animalprice/7}" />
+				</c:if>
+				<c:if test="${animalOrder.animalType == 'Unta'}">
+					<fmt:formatNumber type = "number" maxFractionDigits = "2" value ="${animalOrder.animalprice/7}" />
+				</c:if>
+				<c:if test="${animalOrder.animalType == 'Kambing'}">
+					<fmt:formatNumber type = "number" maxFractionDigits = "2" value ="${animalOrder.animalprice}" />
+				</c:if>
+			</td>
 			<td><button name="update" formaction="AnimalOrderHandler?action=viewAnimalOrder&bookingID=<%=booking_id%>">KEMASKINI</button></td>
 		</tr>
 	</c:forEach>	
