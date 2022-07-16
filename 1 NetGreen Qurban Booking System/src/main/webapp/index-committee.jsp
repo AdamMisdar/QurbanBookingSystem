@@ -101,7 +101,11 @@
 		
 		
 		if(isManager){
+			session.setAttribute("isManager", true);
 			response.sendRedirect("index-committee-manager.jsp");
+		}
+		else {
+			session.setAttribute("isManager", false);
 		}
 	%>
 

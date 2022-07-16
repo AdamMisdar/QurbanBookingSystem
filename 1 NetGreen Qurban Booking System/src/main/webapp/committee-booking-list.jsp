@@ -234,6 +234,7 @@ body{
 	<%!
 		int committee_id;
 		int counter;
+		boolean isManager;
 	%>
 	<%
 		if (session.getAttribute("committeeID")==null) {
@@ -243,6 +244,8 @@ body{
 			committee_id = (int)session.getAttribute("committeeID");
 		}
 		counter = 0;
+		
+		isManager = (boolean)session.getAttribute("isManager");
 		
 		long todayMillis = System.currentTimeMillis();
 		Date dateToday = new Date(todayMillis);
@@ -290,12 +293,14 @@ body{
                         <li>
                             <a href="animal-details-list.jsp" onclick="location.href='animal-details-list.jsp'">Senarai Maklumat Haiwan</a>
                         </li>
+                        <% if (isManager) { %>
                         <li>
                             <a href="committee-list.jsp" onclick="location.href='committee-list.jsp'">Senarai AJK</a>
                         </li>
                         <li>
                             <a href="client-list.jsp" onclick="location.href='client-list.jsp'">Senarai Klien</a>
-                        </li>            
+                        </li>      
+                        <% } %>      
                         <li>
                             <a href="view-committee-account.jsp" onclick="location.href='view-committee-account.jsp'"><i class="far fa-user"></i>  Akaun</a>
                         </li>

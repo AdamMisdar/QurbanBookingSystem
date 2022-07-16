@@ -16,6 +16,7 @@
 	<%!
 		int committee_id;
 		int booking_id;
+		boolean isManager;
 	%>
 	<%
 		if (session.getAttribute("committeeID")==null) {
@@ -26,6 +27,8 @@
 		} 
 	
 		booking_id = (int)request.getAttribute("bookingID");
+		
+		isManager = (boolean)session.getAttribute("isManager");
 		
 		long todayMillis = System.currentTimeMillis();
 		Date dateToday = new Date(todayMillis);
@@ -61,8 +64,10 @@
 	<a href="index-committee.jsp" onclick="location.href='index-committee.jsp'">Laman Utama</a><br>
     <a href="committee-booking-list.jsp" onclick="location.href='committee-booking-list.jsp'">Senarai Tempahan</a><br>
     <a href="animal-details-list.jsp" onclick="location.href='animal-details-list.jsp'">Senarai Maklumat Haiwan</a><br>
+    <% if (isManager) { %>
     <a href="committee-list.jsp" onclick="location.href='committee-list.jsp'">Senarai AJK</a><br>
     <a href="client-list.jsp" onclick="location.href='client-list.jsp'">Senarai Klien</a><br>
+    <% } %> 
     <a href="view-committee-account.jsp" onclick="location.href='view-committee-account.jsp'">  Akaun</a><br>
     <a href="LoginHandler?action=logout" onclick="location.href='LoginHandler?action=logout'">  Log Keluar</a><br>
  
