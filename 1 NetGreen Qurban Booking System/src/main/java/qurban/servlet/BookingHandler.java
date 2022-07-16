@@ -87,7 +87,7 @@ public class BookingHandler extends HttpServlet {
 		// Go to Booking Page
 		request.setAttribute("bookingID", bookingID);
 		
-		RequestDispatcher toBooking = request.getRequestDispatcher("new-booking.jsp");
+		RequestDispatcher toBooking = request.getRequestDispatcher("create-booking.jsp");
 		toBooking.forward(request, response);
 				
 		
@@ -134,10 +134,10 @@ public class BookingHandler extends HttpServlet {
 		
 		// Get and set attributes
 		int bookingID = Integer.parseInt(request.getParameter("bookingID"));
-		double paymentTotal = Double.parseDouble(request.getParameter("paymentTotal"));
+		//double paymentTotal = Double.parseDouble(request.getParameter("paymentTotal"));
 		
 		request.setAttribute("bookingID", bookingID);
-		request.setAttribute("paymentTotal", paymentTotal);
+		//request.setAttribute("paymentTotal", paymentTotal);
 		
 		// To booking page
 		RequestDispatcher toBookingPage = request.getRequestDispatcher("create-booking.jsp");
@@ -163,12 +163,27 @@ public class BookingHandler extends HttpServlet {
 		int bookingID = Integer.parseInt(request.getParameter("bookingID"));
 		
 		// Send to DAO
-		animalOrderDAO.deleteAnimalOrderByBooking(bookingID);
 		bookingDAO.deleteBooking(bookingID);
 		
-		// To 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("index-client.jsp");
-		dispatcher.forward(request, response);
+		// Redirect
+		String path = request.getParameter("path");
+		
+		if (path.equalsIgnoreCase("home")) {
+			
+			RequestDispatcher toHome = request.getRequestDispatcher("index-client.jsp");
+			toHome.forward(request, response);
+			
+		} else if (path.equalsIgnoreCase("account")) {
+			
+			RequestDispatcher toAccount = request.getRequestDispatcher("view-client-account.jsp");
+			toAccount.forward(request, response);
+			
+		} else if (path.equalsIgnoreCase("bookinglist")) {
+			
+			RequestDispatcher toBookingList = request.getRequestDispatcher("client-booking-list.jsp");
+			toBookingList.forward(request, response);
+			
+		}
 	
 	}
 

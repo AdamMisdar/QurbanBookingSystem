@@ -75,15 +75,13 @@ public class AnimalOrderHandler extends HttpServlet {
 			throws ServletException, SQLException, IOException {
 		
 		// Get values from JSP
-		String animalPartType = request.getParameter("animalPartType");		// Jenis haiwan untuk 1 bahagian
-		String dependentName = request.getParameter("dependentName");		// Nama yg dikorbankan
+		String dependentName = request.getParameter("dependentName");		// Nama tanggungan
 		int bookingID = Integer.parseInt(request.getParameter("bookingID"));
 		int animalDetailsID = Integer.parseInt(request.getParameter("animalDetailsID"));
 		
 		// Create New Animal Order Object
 		AnimalOrder newAnimalOrder = new AnimalOrder();
 			
-		newAnimalOrder.setAnimalPartType(animalPartType);
 		newAnimalOrder.setDependentName(dependentName);
 		newAnimalOrder.setBookingID(bookingID);
 		newAnimalOrder.setAnimalDetailsID(animalDetailsID);
@@ -93,7 +91,7 @@ public class AnimalOrderHandler extends HttpServlet {
 		
 		// Redirect to Booking Servlet to add booking
 		request.setAttribute("bookingID", bookingID);
-		RequestDispatcher toBooking = request.getRequestDispatcher("new-booking.jsp");
+		RequestDispatcher toBooking = request.getRequestDispatcher("create-booking.jsp");
 		toBooking.forward(request, response);
 		
 	}
@@ -149,7 +147,7 @@ public class AnimalOrderHandler extends HttpServlet {
 		// Redirect back to booking
 		request.setAttribute("bookingID", bookingID);
 		
-		RequestDispatcher toBookingPage = request.getRequestDispatcher("new-booking.jsp");
+		RequestDispatcher toBookingPage = request.getRequestDispatcher("create-booking.jsp");
 		toBookingPage.forward(request, response);
 		
 	}

@@ -3,7 +3,6 @@ package qurban.javabean;
 public class AnimalOrder {
 	
 	int animalOrderID;
-	String animalPartType;		// Jenis haiwan untuk 1 bahagian
 	String dependentName;		// Nama yg dikorbankan
 	int bookingID;
 	int animalDetailsID;
@@ -16,19 +15,17 @@ public class AnimalOrder {
 	}
 	
 	// with ID
-	public AnimalOrder(int animalOrderID, String animalPartType, String dependentName, int bookingID, int animalDetailsID) {
+	public AnimalOrder(int animalOrderID, String dependentName, int bookingID, int animalDetailsID) {
 		
 		this.animalOrderID = animalOrderID;
-		this.animalPartType = animalPartType;
 		this.dependentName = dependentName;
 		this.bookingID = bookingID;
 		this.animalDetailsID = animalDetailsID;
 	}
 	
 	// without ID
-	public AnimalOrder(String animalPartType, String dependentName, int bookingID, int animalDetailsID) {
+	public AnimalOrder(String dependentName, int bookingID, int animalDetailsID) {
 		
-		this.animalPartType = animalPartType;
 		this.dependentName = dependentName;
 		this.bookingID = bookingID;
 		this.animalDetailsID = animalDetailsID;
@@ -37,10 +34,6 @@ public class AnimalOrder {
 	// Setters ---------------------------
 	public void setAnimalOrderID(int animalOrderID) {
 		this.animalOrderID = animalOrderID;
-	}
-	
-	public void setAnimalPartType(String animalPartType) {
-		this.animalPartType = animalPartType;
 	}
 
 	public void setDependentName(String dependentName) {
@@ -58,10 +51,6 @@ public class AnimalOrder {
 	// Getters ------------------------------
 	public int getAnimalOrderID() {
 		return animalOrderID;
-	}
-
-	public String getAnimalPartType() {
-		return animalPartType;
 	}
 
 	public String getDependentName() {
