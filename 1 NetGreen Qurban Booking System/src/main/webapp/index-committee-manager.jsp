@@ -36,15 +36,16 @@
 	%>
 <%------------------------------------------------- LOGIN REQUIREMENT  --%>
 
-<%-- CHECK MANAGEMENT/VOLUNTARY ---------------------------------------------%>
-      <%-- DATABASE --%>
-	<sql:setDataSource	var="qurbanDatabase" driver="oracle.jdbc.driver.OracleDriver"
-						url="jdbc:oracle:thin:@localhost:1521:xe"
-						user="netgreen"
-						password="system" />
-	<%-- SQL QUERY - DISPLAY ALL ANIMAL DETAILS --%>
-	<sql:query dataSource="${qurbanDatabase}" var="result">
-	   SELECT * FROM committee JOIN management USING (committeeid) WHERE committeeid = <%=committee_id%>
+<%-- DATABASE --%>
+<sql:setDataSource	var="qurbanDatabase" driver="org.postgresql.Driver"
+						url="jdbc:postgresql://ec2-3-223-169-166.compute-1.amazonaws.com:5432/dfcvvjuvqh9c4k?sslmode=require"
+						user="mledzxdxfykycr"
+						password="9d9f02cdbcf786cb80ebf7cdbcabfa637a4c84994673ed9256a9e83e39131589" />
+						
+	
+	<%-- SQL QUERY - COMMITTEE MANAGEMENT DETAILSS --%>
+	<sql:query dataSource="${qurbanDatabase}" var="resultCommittee">
+	   SELECT * FROM management WHERE committeeid = <%=committee_id%>
 	</sql:query>
 	
         <nav class="navbar navbar-expand-lg navbar-light text-capitalize">
@@ -54,7 +55,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div style="color: white;">
-                	<c:forEach var="committee" items="${ result.rows }">
+                	<c:forEach var="committee" items="${resultCommittee.rows}">
                 	<span>PENGURUSAN (PENGURUS)<br></span>
                 		<span><c:out value="${committee.managementposition}"/><br></span>
                 		<span><c:out value="${committee.committeefullname}"/></span>
@@ -64,24 +65,25 @@
                 <div class="collapse navbar-collapse" id="show-menu">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#home">Laman Utama <span class="sr-only">(current)</span></a>
-                        </li>
-                       
-                        <li class="nav-item">
-                            <a class="nav-link" href="#service">Senarai Tempahan</a>
+                            <a class="nav-link" href="#">Laman Utama <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="" onclick="location.href='animal-details-list.jsp'">Senarai Maklumat Haiwan</a>
+                            <a class="nav-link" href="committee-booking-list.jsp" onclick="location.href='committee-booking-list.jsp'">Senarai Tempahan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="" onclick="location.href='committee-list.jsp'">Senarai AJK</a>
-                        </li>
-                       
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="far fa-user"></i></a>
+                            <a class="nav-link" href="animal-details-list.jsp" onclick="location.href='animal-details-list.jsp'">Senarai Maklumat Haiwan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="" onclick="location.href='LoginHandler?action=logout'"><i class="fas fa-sign-out-alt"></i></a>
+                            <a class="nav-link" href="committee-list.jsp" onclick="location.href='committee-list.jsp'">Senarai AJK</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="client-list.jsp" onclick="location.href='client-list.jsp'">Senarai Klien</a>
+                        </li>            
+                        <li class="nav-item">
+                            <a class="nav-link" href="view-committee-account.jsp" onclick="location.href='view-committee-account.jsp'"><i class="far fa-user"></i> Akaun</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="LoginHandler?action=logout" onclick="location.href='LoginHandler?action=logout'"><i class="fas fa-sign-out-alt"></i> Log Keluar</a>
                         </li>
                         
                       

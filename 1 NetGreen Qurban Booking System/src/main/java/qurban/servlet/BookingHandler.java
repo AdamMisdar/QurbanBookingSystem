@@ -13,6 +13,8 @@ public class BookingHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
      BookingDAO bookingDAO;
      AnimalOrderDAO animalOrderDAO;
+     HttpSession session;
+     boolean isCommittee = false;
 
     public BookingHandler() {
         super();
@@ -39,7 +41,21 @@ public class BookingHandler extends HttpServlet {
 			switch(action) {
 			case "createBooking":
 				createBooking(request, response); 
+				
+			case "viewBooking":
+				viewBooking(request, response);
 				break;
+				
+			case "viewBookingCommittee":
+				isCommittee = true;
+				viewBooking(request, response);
+				break;
+				
+			case "deleteBooking":
+				deleteBooking(request, response);
+				break;
+			
+			// Additional Methods
 				
 			case "toPayment":
 				toPayment(request, response);
@@ -61,9 +77,7 @@ public class BookingHandler extends HttpServlet {
 				cancelBooking(request, response);
 				break;
 				
-			case "viewBooking":
-				viewBooking(request, response);
-				break;
+
 			}
 					
 		} catch (Exception e) {
@@ -95,6 +109,49 @@ public class BookingHandler extends HttpServlet {
 		toBooking.forward(request, response);
 				
 		
+	}
+	
+	// View Booking (Client) & View Booking (Committee - Management)
+	private void viewBooking(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, SQLException, IOException {
+		
+		//Get attributes
+		int bookingID = Integer.parseInt(request.getParameter("bookingID"));
+		
+		// Set attribute
+		request.setAttribute("bookingID", bookingID);
+		
+		// Redirect
+		
+		// if committee is the one viewing
+		if(isCommittee) {
+
+			RequestDispatcher toBooking = request.getRequestDispatcher("view-committee-booking.jsp");
+			toBooking.forward(request, response);
+		}
+		// if client is viewing
+		else {
+			RequestDispatcher toBooking = request.getRequestDispatcher("view-client-booking.jsp");
+			toBooking.forward(request, response);
+		}
+
+	
+	}
+	
+	// Delete Booking (Committee - Management)
+	private void deleteBooking(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, SQLException, IOException {
+		
+		// Get attributes
+		int bookingID = Integer.parseInt(request.getParameter("bookingID"));
+		
+		// Send to DAO
+		bookingDAO.deleteBooking(bookingID);
+		
+		// Redirect
+		RequestDispatcher toBooking = request.getRequestDispatcher("committee-booking-list.jsp");
+		toBooking.forward(request, response);
+	
 	}
 	
 	// ADDITIONAL METHODS ----------------------------------------------------------------------
@@ -138,10 +195,8 @@ public class BookingHandler extends HttpServlet {
 		
 		// Get and set attributes
 		int bookingID = Integer.parseInt(request.getParameter("bookingID"));
-		//double paymentTotal = Double.parseDouble(request.getParameter("paymentTotal"));
 		
 		request.setAttribute("bookingID", bookingID);
-		//request.setAttribute("paymentTotal", paymentTotal);
 		
 		// To booking page
 		RequestDispatcher toBookingPage = request.getRequestDispatcher("create-booking.jsp");
@@ -156,7 +211,6 @@ public class BookingHandler extends HttpServlet {
 		// To list page
 		RequestDispatcher toListPage = request.getRequestDispatcher("client-booking-list.jsp");
 		toListPage.forward(request, response);
-	
 	
 	}
 	
@@ -190,21 +244,5 @@ public class BookingHandler extends HttpServlet {
 		}
 	
 	}
-	
-	private void viewBooking(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, SQLException, IOException {
-		
-		//Get attributes
-		int bookingID = Integer.parseInt(request.getParameter("bookingID"));
-		
-		// Set attribute
-		request.setAttribute("bookingID", bookingID);
-		
-		// Redirect
-		RequestDispatcher toBooking = request.getRequestDispatcher("view-client-booking.jsp");
-		toBooking.forward(request, response);
-	
-	}
-
 
 }

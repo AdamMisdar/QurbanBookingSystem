@@ -101,16 +101,16 @@
 		
 		
 		if(isManager){
-			response.sendRedirect("indexcommitteemanager.jsp");
+			response.sendRedirect("index-committee-manager.jsp");
 		}
 	%>
 
 <%-- CHECK MANAGEMENT/VOLUNTARY ---------------------------------------------%>
-		      <%-- DATABASE --%>
-	<sql:setDataSource	var="qurbanDatabase" driver="oracle.jdbc.driver.OracleDriver"
-						url="jdbc:oracle:thin:@localhost:1521:xe"
-						user="netgreen"
-						password="system" />
+	<%-- DATABASE --%>
+	<sql:setDataSource	var="qurbanDatabase" driver="org.postgresql.Driver"
+						url="jdbc:postgresql://ec2-3-223-169-166.compute-1.amazonaws.com:5432/dfcvvjuvqh9c4k?sslmode=require"
+						user="mledzxdxfykycr"
+						password="9d9f02cdbcf786cb80ebf7cdbcabfa637a4c84994673ed9256a9e83e39131589" />
 						
 	<%
 		if(checkManagement){

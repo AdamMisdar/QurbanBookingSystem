@@ -73,7 +73,7 @@ public class BookingDAO {
 		return booking_id;
 	}
 	
-	// Delete Booking (Committee) (kene pakai CASCADE DELETE)
+	// Delete Booking (Committee) (ON DELETE CASCADE)
 	public void deleteBooking(int bookingID) {
 		
 		try {

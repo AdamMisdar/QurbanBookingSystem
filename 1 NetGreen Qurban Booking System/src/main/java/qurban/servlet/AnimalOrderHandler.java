@@ -18,6 +18,7 @@ public class AnimalOrderHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private AnimalOrderDAO animalOrderDAO;
 	HttpSession session;
+	boolean isCommittee = false;
        
 
     public AnimalOrderHandler() {
@@ -48,7 +49,17 @@ public class AnimalOrderHandler extends HttpServlet {
 				updateAnimalOrder(request, response);
 				break;
 				
+			case "updateAnimalOrderCommittee":
+				isCommittee = true;
+				updateAnimalOrder(request, response);
+				break;
+				
 			case "viewAnimalOrder":
+				viewAnimalOrder(request, response);
+				break;
+				
+			case "viewAnimalOrderCommittee":
+				isCommittee = true;
 				viewAnimalOrder(request, response);
 				break;
 				
@@ -57,6 +68,11 @@ public class AnimalOrderHandler extends HttpServlet {
 				break;
 						
 			case "cancelUpdate":
+				cancelUpdate(request, response);
+				break;
+				
+			case "cancelUpdateCommittee":
+				isCommittee = true;
 				cancelUpdate(request, response);
 				break;
 					
@@ -96,7 +112,7 @@ public class AnimalOrderHandler extends HttpServlet {
 		
 	}
 	
-	// View Animal Order
+	// View Animal Order (Committee & Client)
 	public void viewAnimalOrder(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, SQLException, IOException {
 		
@@ -109,12 +125,18 @@ public class AnimalOrderHandler extends HttpServlet {
 		request.setAttribute("bookingID", bookingID);
 		
 		// Redirect
-		RequestDispatcher toPage = request.getRequestDispatcher("edit-client-animal-order.jsp");
-		toPage.forward(request, response);
+		if (isCommittee) {
+			RequestDispatcher toPage = request.getRequestDispatcher("edit-committee-animal-order.jsp");
+			toPage.forward(request, response);
+		} 
+		else {
+			RequestDispatcher toPage = request.getRequestDispatcher("edit-client-animal-order.jsp");
+			toPage.forward(request, response);
+		}
 		
 	}
 	
-	// Update Animal Order
+	// Update Animal Order (Committee & Client)
 	private void updateAnimalOrder(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, SQLException, IOException {
 		
@@ -125,22 +147,30 @@ public class AnimalOrderHandler extends HttpServlet {
 		
 		// Create Animal Order
 		AnimalOrder existingAnimalOrder = new AnimalOrder();
+			
+			// Set values
+			existingAnimalOrder.setDependentName(dependentName);
+			existingAnimalOrder.setAnimalOrderID(animalOrderID);
+					
+			// Send to DAO
+			animalOrderDAO.updateAnimalOrder(existingAnimalOrder);
+					
+			// Redirect to page
+			request.setAttribute("bookingID", bookingID);
+			
+		if(isCommittee) {
+			RequestDispatcher toPage = request.getRequestDispatcher("view-committee-booking.jsp");
+			toPage.forward(request, response);
+			
+		} else {
+			RequestDispatcher toPage = request.getRequestDispatcher("view-client-booking.jsp");
+			toPage.forward(request, response);
 		
-		existingAnimalOrder.setDependentName(dependentName);
-		existingAnimalOrder.setAnimalOrderID(animalOrderID);
-		
-		// Send to DAO
-		animalOrderDAO.updateAnimalOrder(existingAnimalOrder);
-		
-		// Redirect to page
-		request.setAttribute("bookingID", bookingID);
-		
-		RequestDispatcher toPage = request.getRequestDispatcher("view-client-booking.jsp");
-		toPage.forward(request, response);
+		}
 		
 	}
 	
-	// Delete Animal Order (1 by 1)
+	// Delete Animal Order (Committee Only) 
 	private void deleteAnimalOrder(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, SQLException, IOException {
 		
@@ -168,8 +198,15 @@ public class AnimalOrderHandler extends HttpServlet {
 		
 		// Redirect back to booking
 		request.setAttribute("bookingID", bookingID);
-		RequestDispatcher toPage = request.getRequestDispatcher("view-client-booking.jsp");
-		toPage.forward(request, response);
+		
+		if (isCommittee) {
+			RequestDispatcher toPage = request.getRequestDispatcher("view-committee-booking.jsp");
+			toPage.forward(request, response);
+			
+		} else {
+			RequestDispatcher toPage = request.getRequestDispatcher("view-client-booking.jsp");
+			toPage.forward(request, response);
+		}
 	}
 	
 

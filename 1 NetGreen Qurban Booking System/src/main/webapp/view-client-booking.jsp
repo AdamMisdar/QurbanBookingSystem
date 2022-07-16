@@ -120,7 +120,7 @@
 					<fmt:formatNumber type = "number" maxFractionDigits = "2" value ="${animalOrder.animalprice}" />
 				</c:if>
 			</td>
-			<td><button name="update" formaction="AnimalOrderHandler?action=viewAnimalOrder&bookingID=<%=booking_id%>">KEMASKINI</button></td>
+			<td><button name="view" formaction="AnimalOrderHandler?action=viewAnimalOrder&bookingID=<%=booking_id%>">KEMASKINI</button></td>
 		</tr>
 	</c:forEach>	
 	</table>

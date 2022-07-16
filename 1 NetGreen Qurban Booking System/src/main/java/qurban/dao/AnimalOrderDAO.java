@@ -54,7 +54,7 @@ public class AnimalOrderDAO {
 		
 	}
 	
-	// Update Animal Order
+	// Update Animal Order (Client)
 	public void updateAnimalOrder(AnimalOrder existingAnimalOrder) throws SQLException {
 		
 		try {

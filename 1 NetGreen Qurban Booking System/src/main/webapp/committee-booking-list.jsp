@@ -5,7 +5,6 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %> <%-- Number formatter --%>
 <%@ page import="java.sql.*" %>
 <%@ page import="qurban.connection.ConnectionManager" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -233,15 +232,15 @@ body{
 <body>
 	
 	<%!
-		int client_id;
+		int committee_id;
 		int counter;
 	%>
 	<%
-		if (session.getAttribute("clientID")==null) {
+		if (session.getAttribute("committeeID")==null) {
 			response.sendRedirect("login.jsp");
 		}
 		else {
-			client_id = (int)session.getAttribute("clientID");
+			committee_id = (int)session.getAttribute("committeeID");
 		}
 		counter = 0;
 		
@@ -256,11 +255,11 @@ body{
 						password="9d9f02cdbcf786cb80ebf7cdbcabfa637a4c84994673ed9256a9e83e39131589" />
 <%----------------------------------------------------------- DATABASE --%>
 
-<%-- CLIENT DETAILS -----------------------------------------------------%>
-	<sql:query dataSource="${qurbanDatabase}" var="clientResult">
-		SELECT * FROM client WHERE clientid = <%=client_id%>
+<%-- COMMITTEE MANAGEMENT DETAILS ---------------------------------------%>
+	<sql:query dataSource="${qurbanDatabase}" var="committeeResult">
+		SELECT * FROM management WHERE committeeid = <%=committee_id%>
 	</sql:query>
-<%----------------------------------------------------- CLIENT DETAILS --%>
+<%----------------------------------------------------- COMMITTEE MANAGEMENT DETAILS --%>
 		<div class="header">
 			<div>
 				<span style="position: absolute; right: 20px; top:7px; font-size: 16px; color white;">NETGREEN</span>
@@ -272,21 +271,37 @@ body{
 	
 		<div class="wrapper">
 			<div class="sidebar">
-				<h2>KLIEN</h2>
-					<c:forEach var="client" items="${clientResult.rows}">
+				<h2>PENGURUSAN</h2>
+					<c:forEach var="committee" items="${committeeResult.rows}">
 						<p style="position:relative; color: rgb(253, 253, 253); font-weight: bold; text-align:left; left: 18px">
-						<c:out value="${client.clientfullname}"/>
+						<c:out value="${committee.committeefullname}"/>
 						</p>
-						<p style="position:relative; color: rgb(253, 253, 253); text-align:left; left: 18px;"> ID Akaun: 
-						<c:out value="${client.clientid}"/>
+						<p style="position:relative; color: rgb(253, 253, 253); text-align:left; left: 18px;">
+						<c:out value="${committee.managementposition}"/>
 						</p>
 					</c:forEach>
 				<ul>
-					<li><a href="index-client.jsp" onclick="location.href='index-client.jsp'"><i class="fas fa-home"></i>Halaman Utama</a></li>
-					<li><a href="view-client-account.jsp" onclick="location.href='view-client-account.jsp'"><i class="fas fa-user"></i>Profil</a></li>
-					<li><a href="location.href='BookingHandler?action=createBooking&bookingDate=<%=dateToday%>&clientID=<%=client_id%>'" onclick="location.href='BookingHandler?action=createBooking&bookingDate=<%=dateToday%>&clientID=<%=client_id%>'"><i class="fas fa-address-book"></i>Buat Tempahan</a></li>
-					<li><a href="client-booking-list.jsp" onclick="location.href='client-booking-list.jsp'"><i class="fas fa-address-book"></i>Senarai Tempahan</a></li>
-		
+                        <li>
+                            <a href="index-committee.jsp" onclick="location.href='index-committee.jsp'">Laman Utama <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li>
+                            <a href="committee-booking-list.jsp" onclick="location.href='committee-booking-list.jsp'">Senarai Tempahan</a>
+                        </li>
+                        <li>
+                            <a href="animal-details-list.jsp" onclick="location.href='animal-details-list.jsp'">Senarai Maklumat Haiwan</a>
+                        </li>
+                        <li>
+                            <a href="committee-list.jsp" onclick="location.href='committee-list.jsp'">Senarai AJK</a>
+                        </li>
+                        <li>
+                            <a href="client-list.jsp" onclick="location.href='client-list.jsp'">Senarai Klien</a>
+                        </li>            
+                        <li>
+                            <a href="view-committee-account.jsp" onclick="location.href='view-committee-account.jsp'"><i class="far fa-user"></i>  Akaun</a>
+                        </li>
+                        <li>
+                            <a href="LoginHandler?action=logout" onclick="location.href='LoginHandler?action=logout'"><i class="fas fa-sign-out-alt"></i> Log Keluar</a>
+                        </li>
 				</ul> 
 			</div>
 		</div>
@@ -298,18 +313,23 @@ body{
 		FROM payment
 		JOIN booking
 		USING (bookingid)
-		WHERE clientid = <%=client_id%>
+		JOIN client
+		USING (clientid)
 		ORDER BY bookingid
 	</sql:query>
+	
+	
 	<div class="title">
 	<h2>SENARAI TEMPAHAN</h2>
 	</div>
 	<div class="tablecontainer">
+	<form method="post">
 	<table>
 		<tr>
 			<th>No.</th>
 			<th>Tarikh Tempah</th>
 			<th>Harga Tempahan (RM)</th>
+			<th>Nama Klien</th>
 			<th></th>
 		</tr>
 	
@@ -319,13 +339,25 @@ body{
 			<td><c:out value="<%=counter%>"/></td>
 			<td><c:out value="${booking.bookingdate}"/></td>
 			<td><fmt:formatNumber type = "number" maxFractionDigits = "2" value = "${booking.paymenttotal}" /></td>
+			<td><c:out value="${booking.clientfullname}"/></td>
 			<td>
-                <button class="button" onclick="location.href='BookingHandler?action=viewBooking&bookingID=${booking.bookingid}'" style="background-color: #2c752f; color: #fff;">Lihat&nbsp;&nbsp;<i class="bi bi-eye-fill"></i></button>
+                <button class="button" formaction="BookingHandler?action=viewBookingCommittee&bookingID=${booking.bookingid}" style="background-color: #2c752f; color: #fff;">Lihat&nbsp;&nbsp;<i class="bi bi-eye-fill"></i></button>
+				<button class="button" formaction="BookingHandler?action=deleteBooking&bookingID=${booking.bookingid}" style="background-color: #db0f31; color: white;" onclick="checkDelete()">PADAM</button>
 			</td>
 		</tr>
 	</c:forEach>
 	</table>
-
-</div>
+	</form>
+	</div>
+	
+		<script>
+	function checkDelete() {
+		var result = confirm('Anda pasti buang tempahan ini?');
+		if (result == false) {
+			event.preventDefault();
+		}
+	}
+	
+	</script>
 </body>
 </html>
