@@ -60,6 +60,10 @@ public class BookingHandler extends HttpServlet {
 			case "cancelBooking":
 				cancelBooking(request, response);
 				break;
+				
+			case "viewBooking":
+				viewBooking(request, response);
+				break;
 			}
 					
 		} catch (Exception e) {
@@ -184,6 +188,21 @@ public class BookingHandler extends HttpServlet {
 			toBookingList.forward(request, response);
 			
 		}
+	
+	}
+	
+	private void viewBooking(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, SQLException, IOException {
+		
+		//Get attributes
+		int bookingID = Integer.parseInt(request.getParameter("bookingID"));
+		
+		// Set attribute
+		request.setAttribute("bookingID", bookingID);
+		
+		// Redirect
+		RequestDispatcher toBooking = request.getRequestDispatcher("view-client-booking.jsp");
+		toBooking.forward(request, response);
 	
 	}
 

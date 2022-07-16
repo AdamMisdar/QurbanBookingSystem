@@ -45,7 +45,7 @@
 	<%-- NAVIGATION BAR --%>
     <a href="index-client.jsp" onclick="location.href='index-client.jsp'">Laman Utama</a><br>
     <a href="client-booking-list.jsp" onclick="location.href='client-booking-list.jsp'">Senarai Tempahan</a><br>
-    <a href="create-booking.jsp" onclick="location.href='create-booking.jsp'">Buat Tempahan</a><br>
+    <a href="location.href='BookingHandler?action=createBooking&bookingDate=<%=dateToday%>&clientID=<%=client_id%>'" onclick="location.href='BookingHandler?action=createBooking&bookingDate=<%=dateToday%>&clientID=<%=client_id%>'">Buat Tempahan</a><br>
     <a href="view-client-account.jsp" onclick="location.href='view-client-account.jsp'">Akaun</a><br>
     <a href="LoginHandler?action=logout" onclick="location.href='LoginHandler?action=logout'">Log Keluar</a><br><br><br> <%-- TOLONG BUAT ALERT/CONFIRM FUNCTION --%>
     

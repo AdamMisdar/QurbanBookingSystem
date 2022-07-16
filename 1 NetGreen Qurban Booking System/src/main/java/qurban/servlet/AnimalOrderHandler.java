@@ -47,9 +47,9 @@ public class AnimalOrderHandler extends HttpServlet {
 			case "updateAnimalOrder":
 				updateAnimalOrder(request, response);
 				break;
-						
-			case "deleteAnimalOrderByBooking":
-				deleteAnimalOrderByBooking(request, response);
+				
+			case "viewAnimalOrder":
+				viewAnimalOrder(request, response);
 				break;
 				
 			case "deleteAnimalOrder":
@@ -96,11 +96,30 @@ public class AnimalOrderHandler extends HttpServlet {
 		
 	}
 	
+	// View Animal Order
+	public void viewAnimalOrder(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, SQLException, IOException {
+		
+		// Get values
+		int animalOrderID = Integer.parseInt(request.getParameter("animalOrderID"));
+		int bookingID = Integer.parseInt(request.getParameter("bookingID"));
+		
+		// Set attribute
+		request.setAttribute("animalOrderID", animalOrderID);
+		request.setAttribute("bookingID", bookingID);
+		
+		// Redirect
+		RequestDispatcher toPage = request.getRequestDispatcher("edit-client-animal-order.jsp");
+		toPage.forward(request, response);
+		
+	}
+	
 	// Update Animal Order
 	private void updateAnimalOrder(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, SQLException, IOException {
 		
 		// Get values
+		int bookingID = Integer.parseInt(request.getParameter("bookingID"));
 		String dependentName = request.getParameter("dependentName");
 		int animalOrderID = Integer.parseInt(request.getParameter("animalOrderID"));
 		
@@ -114,22 +133,10 @@ public class AnimalOrderHandler extends HttpServlet {
 		animalOrderDAO.updateAnimalOrder(existingAnimalOrder);
 		
 		// Redirect to page
-		response.sendRedirect("");
+		request.setAttribute("bookingID", bookingID);
 		
-	}
-	
-	// Delete Animal Order By Booking
-	private void deleteAnimalOrderByBooking(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, SQLException, IOException {
-		
-		// Get values from JSP
-		int bookingID = Integer.parseInt(request.getParameter("bookingID"));
-		
-		// Send to DAO
-		animalOrderDAO.deleteAnimalOrderByBooking(bookingID);
-		
-		// Redirect back to page
-		response.sendRedirect("");
+		RequestDispatcher toPage = request.getRequestDispatcher("view-client-booking.jsp");
+		toPage.forward(request, response);
 		
 	}
 	
@@ -155,7 +162,14 @@ public class AnimalOrderHandler extends HttpServlet {
 	// Cancel Update Animal Order by Client
 	private void cancelUpdate(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, SQLException, IOException {
-		response.sendRedirect("");
+		
+		// Get values
+		int bookingID = Integer.parseInt(request.getParameter("bookingID"));
+		
+		// Redirect back to booking
+		request.setAttribute("bookingID", bookingID);
+		RequestDispatcher toPage = request.getRequestDispatcher("view-client-booking.jsp");
+		toPage.forward(request, response);
 	}
 	
 
