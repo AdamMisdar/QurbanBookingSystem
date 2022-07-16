@@ -282,10 +282,10 @@ body{
 						</p>
 					</c:forEach>
 				<ul>
-					<li><a href="" onclick="location.href='index-client.jsp'"><i class="fas fa-home"></i>Halaman Utama</a></li>
-					<li><a href="" onclick="location.href='view-client-account.jsp'"><i class="fas fa-user"></i>Profil</a></li>
-					<li><a href="" onclick="location.href='BookingHandler?action=createBooking&bookingDate=<%=dateToday%>&clientID=<%=client_id%>'"><i class="fas fa-address-book"></i>Buat Tempahan</a></li>
-					<li><a href="" onclick="location.href='client-booking-list.jsp'"><i class="fas fa-address-book"></i>Senarai Tempahan</a></li>
+					<li><a href="index-client.jsp" onclick="location.href='index-client.jsp'"><i class="fas fa-home"></i>Halaman Utama</a></li>
+					<li><a href="view-client-account.jsp" onclick="location.href='view-client-account.jsp'"><i class="fas fa-user"></i>Profil</a></li>
+					<li><a href="location.href='BookingHandler?action=createBooking&bookingDate=<%=dateToday%>&clientID=<%=client_id%>'" onclick="location.href='BookingHandler?action=createBooking&bookingDate=<%=dateToday%>&clientID=<%=client_id%>'"><i class="fas fa-address-book"></i>Buat Tempahan</a></li>
+					<li><a href="client-booking-list.jsp" onclick="location.href='client-booking-list.jsp'"><i class="fas fa-address-book"></i>Senarai Tempahan</a></li>
 		
 				</ul> 
 			</div>
