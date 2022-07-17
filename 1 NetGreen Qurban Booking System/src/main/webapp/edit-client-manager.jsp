@@ -9,13 +9,13 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Kemaskini</title>
+<title>Kemaskini Akaun</title>
 </head>
 <body>
 		<%!
 		// MANAGER ONLY
 		int committee_id; // mananager's committee id
-		int ID_committee; // committee to view
+		int ID_client; // committee to view
 		Connection connection;
 	%>
 	<%
@@ -26,13 +26,13 @@
 			committee_id = (int)session.getAttribute("committeeID");
 		}
 	
-		ID_committee = (int)request.getAttribute("ID_committee");
+		ID_client = (int)request.getAttribute("ID_client");
 		
 		long todayMillis = System.currentTimeMillis();
 		Date dateToday = new Date(todayMillis);
 	%>
 	
-<%-- DATABASE -----------------------------------------------------------%>
+	<%-- DATABASE -----------------------------------------------------------%>
 <sql:setDataSource	var="qurbanDatabase" driver="org.postgresql.Driver"
 						url="jdbc:postgresql://ec2-3-223-169-166.compute-1.amazonaws.com:5432/dfcvvjuvqh9c4k?sslmode=require"
 						user="mledzxdxfykycr"
@@ -46,11 +46,11 @@
 <%----------------------------------------------------- SIDEBAR MANAGEMENT DETAILS --%>	
 
 	<c:forEach var="committee" items="${committeeResult.rows}">
-			<c:out value="${committee.committeefullname}"/><br>
-			<c:out value="${committee.managementposition}"/>
+		<c:out value="${committee.committeefullname}"/><br>
+		<c:out value="${committee.managementposition}"/>
 	</c:forEach>
 	
-		<%-- HEADER --%>
+	<%-- HEADER --%>
 	<h2>NETGREEN</h2><br><br>
 	
 	<%-- NAVIGATION BAR --%>
@@ -62,27 +62,17 @@
     <a href="view-committee-account.jsp" onclick="location.href='view-committee-account.jsp'">  Akaun</a><br>
     <a href="LoginHandler?action=logout" onclick="location.href='LoginHandler?action=logout'">  Log Keluar</a><br>
     
-    
-    <%-- VOLUNTARY DETAILS ---------------------------------------%>
-	<sql:query dataSource="${qurbanDatabase}" var="voluntaryResult">
-		SELECT * FROM voluntary WHERE committeeid = <%=ID_committee%>
+    <%-- CLIENT DETAILS ---------------------------------------%>
+	<sql:query dataSource="${qurbanDatabase}" var="clientResult">
+		SELECT * FROM client WHERE clientid = <%=ID_client%>
 	</sql:query>
-	<%--------------------------------------- VOLUNTARY DETAILS --%>
-	
-	<%-- MANAGER LIST ---------------------------------------%>
-	<sql:query dataSource="${qurbanDatabase}" var="managerRes">
-		SELECT * FROM management 
-		WHERE managementposition = 'Pengerusi'
-		OR managementposition = 'Naib Pengerusi'
-	</sql:query>
-	<%--------------------------------------- MANAGER LIST  --%>
-		
+	<%--------------------------------------- CLIENT DETAILS --%>
     
     <h3>KEMASKINI MAKLUMAT AKAUN (SUKARELAWAN)</h3><br><br>
     
     <form method="post">
     	<table>
-    	<c:forEach var="voluntary" items="${voluntaryResult.rows}">
+    	<c:forEach var="client" items="${clientResult.rows}">
     	 <%
     		try {
 			// Get Connection
@@ -90,10 +80,10 @@
 			
 			// Prepare Statement
 			PreparedStatement showSQL = connection.prepareStatement
-			( "SELECT * FROM voluntary WHERE committeeid = ?");
+			( "SELECT * FROM client WHERE clientid = ?");
 			
 			// ? value
-			showSQL.setInt(1, ID_committee);
+			showSQL.setInt(1, ID_client);
 			
 			// Execute SQL
 			ResultSet result = showSQL.executeQuery();
@@ -106,44 +96,33 @@
     		<tr>
     			<th>ID Akaun:</th>
     			<td>
-    				<c:out value="${voluntary.committeeid}"/>
-    				<input type="hidden" name="committeeID" value="<%=ID_committee%>">
+    				<c:out value="${client.clientid}"/>
+    				<input type="hidden" name="clientID" value="<%=ID_client%>">
     			</td>
     		</tr>
     		<tr>
     			<th>Nama Penuh:</th>
-    			<td><input type="text" name="committeeFullName" value='<%=result.getString("committeefullname")%>'></td>
+    			<td><input type="text" name="clientFullName" value='<%=result.getString("clientFullName")%>'></td>
     		</tr>
     		<tr>
     			<th>No Telefon:</th>
-    			<td><input type="text" name="committeePhoneNum" value='<%=result.getString("committeephonenum")%>'></td>
+    			<td><input type="text" name="clientPhoneNum" value='<%=result.getString("clientPhoneNum")%>'></td>
     		</tr>
-
-    		
     		<tr>
     			<th>Tarikh Lahir:</th>
-    			<td><input type="date" name="committeeBirthDate" value='<%=result.getString("committeebirthdate")%>'></td>
+    			<td><input type="date" name="clientBirthDate" value='<%=result.getString("clientBirthDate")%>'></td>
     		</tr>
-
 			<tr>
     			<th>Alamat:</th>
-    			<td><input type="text" name="committeeAddress" value='<%=result.getString("committeeaddress")%>'></td>
+    			<td><input type="text" name="clientAddress" value='<%=result.getString("clientAddress")%>'></td>
     		</tr>
     		<tr>
     			<th>Email:</th>
-    			<td><input type="text" name="committeeEmail" value='<%=result.getString("committeeemail")%>'></td>
+    			<td><input type="text" name="clientEmail" value='<%=result.getString("clientEmail")%>'></td>
     		</tr>
     		<tr>
     			<th>Kata Laluan:</th>
-    			<td><input type="password" name="committeePassword" value='<%=result.getString("committeepassword")%>'></td>
-    		</tr>
-    		<tr>
-    			<th>Skop Kerja:</th>
-    			<td><input type="text" name="voluntaryRole" value='<%=result.getString("voluntaryrole")%>' readonly></td>
-    		</tr>
-    		<tr>
-    			<th>Kadar Setiap Jam:</th>
-    			<td><input type="number" name="hourlyRate" value='<%=result.getDouble("hourlyrate")%>' readonly></td>
+    			<td><input type="password" name="clientPassword" value='<%=result.getString("clientPassword")%>'></td>
     		</tr>
     		
     		<%
@@ -153,30 +132,16 @@
     			}
     		
     		%>
-    		<tr>
-    			<th>Pengurus:</th>
-    			<td>
-    				<select name="managerID">
-    				<c:forEach var="voluntary" items="${voluntaryResult.rows}">
-    					<c:forEach var="managerlist" items="${managerRes.rows}">
-    						<c:if test="${managerlist.committeeid == voluntary.managerid}">
-    							<option value="${managerlist.committeeid}" selected><c:out value="${managerlist.committeefullname}"/></option>
-    						</c:if>
-    						<c:if test="${managerlist.committeeid != voluntary.managerid}">
-    							<option value="${managerlist.committeeid}"><c:out value="${managerlist.committeefullname}"/></option>
-    						</c:if>
-    					</c:forEach>
-    				</c:forEach>
-    				</select>
-    			</td>
-    		</tr>
-    	
-    		
     	</c:forEach>
     	</table><br>
     	
-		<button name="back" formaction="CommitteeHandler?action=viewVoluntary&ID=<%=ID_committee%>">BATAL</button>
-		<button type="submit" name="update" formaction="CommitteeHandler?action=updateVoluntaryManagerOnly&ID=<%=ID_committee%>">SIMPAN</button>
+		<button name="back" formaction="ClientHandler?action=viewClient&ID=<%=ID_client%>">BATAL</button>
+		<button type="submit" name="update" formaction="ClientHandler?action=updateClientCom&ID=<%=ID_client%>">SIMPAN</button>
  	</form>
+    
+    
+	
+	
+	
 </body>
 </html>

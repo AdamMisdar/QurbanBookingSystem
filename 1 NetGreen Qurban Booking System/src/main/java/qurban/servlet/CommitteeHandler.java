@@ -15,6 +15,7 @@ public class CommitteeHandler extends HttpServlet {
 	private CommitteeManagementDAO comManagementDAO;
 	private CommitteeVoluntaryDAO comVoluntaryDAO;
 	boolean managerEdit = false;
+	boolean accountEdit = false;
 	
 	HttpSession session = null;
        
@@ -75,6 +76,12 @@ public class CommitteeHandler extends HttpServlet {
 				managerEdit = true;
 				viewManagement(request, response);
 				break;
+				
+			case "editManagementAcc":
+				accountEdit = true;
+				viewManagement(request, response);
+				break;
+				
 				
 			// 	--------------------------------------------------
 				
@@ -194,7 +201,14 @@ public class CommitteeHandler extends HttpServlet {
 			RequestDispatcher toPage = request.getRequestDispatcher("edit-committee-management.jsp");
 			toPage.forward(request, response);
 			
-		} else {
+		} else if(accountEdit) {
+			
+			RequestDispatcher toPage = request.getRequestDispatcher("edit-committee-management-account.jsp");
+			toPage.forward(request, response);
+			
+		}
+		
+		else {
 		
 			RequestDispatcher toPage = request.getRequestDispatcher("view-committee-management.jsp");
 			toPage.forward(request, response);
@@ -265,7 +279,7 @@ public class CommitteeHandler extends HttpServlet {
 			throws ServletException, SQLException, IOException {
 			
 		// Get values of JSP
-		int committeeID = Integer.parseInt("committeID");
+		int committeeID = Integer.parseInt(request.getParameter("committeeID"));
 		String committeeFullName = request.getParameter("committeeFullName");
 		String committeePhoneNum = request.getParameter("committeePhoneNum");
 		Date committeeBirthDate = Date.valueOf(request.getParameter("committeeBirthDate"));
@@ -288,7 +302,7 @@ public class CommitteeHandler extends HttpServlet {
 		comManagementDAO.updateManagement(existingManagement);
 			
 		// Redirect back to view account
-		response.sendRedirect("committee-account.jsp");
+		response.sendRedirect("view-committee-management-account.jsp");
 			
 		}
 	
@@ -363,7 +377,7 @@ public class CommitteeHandler extends HttpServlet {
 		comVoluntaryDAO.updateVoluntary_ManagerOnly(existingVoluntary);
 		
 		// Redirect back to view account
-		response.sendRedirect("committee-list.jsp");
+		response.sendRedirect("view-committee-voluntary-list.jsp");
 		
 	}	
 	

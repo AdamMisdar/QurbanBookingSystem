@@ -20,6 +20,7 @@ import qurban.javabean.*;
 public class ClientHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ClientDAO clientDAO;
+	boolean managerEdit = false;
 	HttpSession session = null;
 	
     public ClientHandler() {
@@ -51,6 +52,11 @@ public class ClientHandler extends HttpServlet {
 			case "updateClient":
 				updateClient(request, response);
 				break;
+				
+			case "updateClientCom":
+				managerEdit = true;
+				updateClient(request, response);
+				break;
 			
 			case "deleteClient":
 				deleteClient(request, response);
@@ -59,7 +65,15 @@ public class ClientHandler extends HttpServlet {
 			case "cancelUpdate":
 				cancelUpdate(request, response);
 				break;
-			
+				
+			case "viewClient":
+				viewClient(request, response);
+				break;
+				
+			case "editClient":
+				managerEdit = true;
+				viewClient(request, response);
+				break;
 			}
 			
 		} catch (Exception e) {
@@ -118,7 +132,14 @@ public class ClientHandler extends HttpServlet {
 		clientDAO.updateClientDetails(exisitingClient);
 		
 		// Redirect back to view account page
-		response.sendRedirect("view-client-account.jsp");
+		
+		if(managerEdit) {
+			response.sendRedirect("client-list.jsp");
+		} 
+		
+		else {
+			response.sendRedirect("view-client-account.jsp");
+		}
 
 	}
 	
@@ -133,7 +154,7 @@ public class ClientHandler extends HttpServlet {
 		clientDAO.deleteClient(clientID);
 		
 		// Redirect to home page
-		response.sendRedirect("login.jsp");
+		response.sendRedirect("client-list.jsp");
 		
 	}
 	
@@ -143,7 +164,25 @@ public class ClientHandler extends HttpServlet {
 		response.sendRedirect("view-account-client.jsp");
 	}
 	
-	
 	// ADDITIONAL METHODS? ----------------------------------------------
+	private void viewClient(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, SQLException, IOException {
+		
+		// Get values
+		int client_id = Integer.parseInt(request.getParameter("ID"));
+				
+		// Redirect
+		request.setAttribute("ID_client", client_id);
+		
+		if(managerEdit) {
+			RequestDispatcher toPage = request.getRequestDispatcher("edit-client-manager.jsp");
+			toPage.forward(request, response);
+		}
+			else {
+			RequestDispatcher toPage = request.getRequestDispatcher("view-client-manager.jsp");
+			toPage.forward(request, response);
+		}
+		
+	}
 	
 }

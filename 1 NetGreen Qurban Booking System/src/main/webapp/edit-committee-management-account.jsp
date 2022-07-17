@@ -9,13 +9,12 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Kemaskini</title>
+<title>KEMASKINI AKAUN</title>
 </head>
-<body>
-		<%!
+<body>	
+	<%!
 		// MANAGER ONLY
 		int committee_id; // mananager's committee id
-		int ID_committee; // committee to view
 		Connection connection;
 	%>
 	<%
@@ -26,7 +25,9 @@
 			committee_id = (int)session.getAttribute("committeeID");
 		}
 	
-		ID_committee = (int)request.getAttribute("ID_committee");
+	
+		boolean isManager = (boolean)session.getAttribute("isManager");
+
 		
 		long todayMillis = System.currentTimeMillis();
 		Date dateToday = new Date(todayMillis);
@@ -57,32 +58,27 @@
 	<a href="index-committee.jsp" onclick="location.href='index-committee.jsp'">Laman Utama</a><br>
     <a href="committee-booking-list.jsp" onclick="location.href='committee-booking-list.jsp'">Senarai Tempahan</a><br>
     <a href="animal-details-list.jsp" onclick="location.href='animal-details-list.jsp'">Senarai Maklumat Haiwan</a><br>
+    <% if (isManager) { %>
     <a href="committee-list.jsp" onclick="location.href='committee-list.jsp'">Senarai AJK</a><br>
     <a href="client-list.jsp" onclick="location.href='client-list.jsp'">Senarai Klien</a><br>
+    <% } %>
     <a href="view-committee-account.jsp" onclick="location.href='view-committee-account.jsp'">  Akaun</a><br>
     <a href="LoginHandler?action=logout" onclick="location.href='LoginHandler?action=logout'">  Log Keluar</a><br>
     
     
-    <%-- VOLUNTARY DETAILS ---------------------------------------%>
-	<sql:query dataSource="${qurbanDatabase}" var="voluntaryResult">
-		SELECT * FROM voluntary WHERE committeeid = <%=ID_committee%>
+    <%-- MANAGEMENT DETAILS ---------------------------------------%>
+	<sql:query dataSource="${qurbanDatabase}" var="managementResult">
+		SELECT * FROM management WHERE committeeid = <%=committee_id%>
 	</sql:query>
-	<%--------------------------------------- VOLUNTARY DETAILS --%>
-	
-	<%-- MANAGER LIST ---------------------------------------%>
-	<sql:query dataSource="${qurbanDatabase}" var="managerRes">
-		SELECT * FROM management 
-		WHERE managementposition = 'Pengerusi'
-		OR managementposition = 'Naib Pengerusi'
-	</sql:query>
-	<%--------------------------------------- MANAGER LIST  --%>
+	<%--------------------------------------- MANAGEMENT DETAILS --%>
+
 		
     
-    <h3>KEMASKINI MAKLUMAT AKAUN (SUKARELAWAN)</h3><br><br>
+    <h3>KEMASKINI MAKLUMAT AKAUN (PENGURUSAN)</h3><br><br>
     
     <form method="post">
     	<table>
-    	<c:forEach var="voluntary" items="${voluntaryResult.rows}">
+    	<c:forEach var="management" items="${managementResult.rows}">
     	 <%
     		try {
 			// Get Connection
@@ -90,24 +86,34 @@
 			
 			// Prepare Statement
 			PreparedStatement showSQL = connection.prepareStatement
-			( "SELECT * FROM voluntary WHERE committeeid = ?");
+			( "SELECT * FROM management WHERE committeeid = ?");
 			
 			// ? value
-			showSQL.setInt(1, ID_committee);
+			showSQL.setInt(1, committee_id);
 			
 			// Execute SQL
 			ResultSet result = showSQL.executeQuery();
 		
 			
 			while (result.next()) {
+				
+				if(result.getString("managementposition").equalsIgnoreCase("Pengerusi")) {
+					//request.setAttribute("isPengerusi", "yes");
+					%><input type="hidden" name="isPengerusi" value="yes"><%
+					System.out.println("yes pengerusi");
+				}
+				else {
+					//request.setAttribute("isPengerusi", "no");
+					%><input type="hidden" name="isPengerusi" value="no"><%
+				}
 		
 			//--- Scriplet continued at the bottom
 	 	%>
     		<tr>
     			<th>ID Akaun:</th>
     			<td>
-    				<c:out value="${voluntary.committeeid}"/>
-    				<input type="hidden" name="committeeID" value="<%=ID_committee%>">
+    				<c:out value="${management.committeeid}"/>
+    				<input type="hidden" name="committeeID" value="<%=committee_id%>">
     			</td>
     		</tr>
     		<tr>
@@ -138,12 +144,8 @@
     			<td><input type="password" name="committeePassword" value='<%=result.getString("committeepassword")%>'></td>
     		</tr>
     		<tr>
-    			<th>Skop Kerja:</th>
-    			<td><input type="text" name="voluntaryRole" value='<%=result.getString("voluntaryrole")%>' readonly></td>
-    		</tr>
-    		<tr>
-    			<th>Kadar Setiap Jam:</th>
-    			<td><input type="number" name="hourlyRate" value='<%=result.getDouble("hourlyrate")%>' readonly></td>
+    			<th>Jawatan:</th>
+    			<td><input type="text" name="managementPosition" value='<%=result.getString("managementposition")%>' readonly></td>
     		</tr>
     		
     		<%
@@ -152,31 +154,23 @@
     				e.printStackTrace();
     			}
     		
-    		%>
-    		<tr>
+    		%>		
+			<%-- MANAGER LIST ---------------------------------------%>
+				<sql:query dataSource="${qurbanDatabase}" var="managerRes">
+					SELECT * FROM management 
+					WHERE committeeid = ${management.managerid}
+				</sql:query>
+			<%--------------------------------------- MANAGER LIST  --%>
+    		<tr>	
     			<th>Pengurus:</th>
-    			<td>
-    				<select name="managerID">
-    				<c:forEach var="voluntary" items="${voluntaryResult.rows}">
-    					<c:forEach var="managerlist" items="${managerRes.rows}">
-    						<c:if test="${managerlist.committeeid == voluntary.managerid}">
-    							<option value="${managerlist.committeeid}" selected><c:out value="${managerlist.committeefullname}"/></option>
-    						</c:if>
-    						<c:if test="${managerlist.committeeid != voluntary.managerid}">
-    							<option value="${managerlist.committeeid}"><c:out value="${managerlist.committeefullname}"/></option>
-    						</c:if>
-    					</c:forEach>
-    				</c:forEach>
-    				</select>
-    			</td>
+    			<td><td><input type="text" value="${managerRes.committeefullname}" readonly></td>
     		</tr>
-    	
     		
     	</c:forEach>
     	</table><br>
     	
-		<button name="back" formaction="CommitteeHandler?action=viewVoluntary&ID=<%=ID_committee%>">BATAL</button>
-		<button type="submit" name="update" formaction="CommitteeHandler?action=updateVoluntaryManagerOnly&ID=<%=ID_committee%>">SIMPAN</button>
+		<button name="back" formaction="view-committee-management-account.jsp">BATAL</button>
+		<button type="submit" name="update" formaction="CommitteeHandler?action=updateManagement&committeeID=<%=committee_id%>">SIMPAN</button>
  	</form>
 </body>
 </html>

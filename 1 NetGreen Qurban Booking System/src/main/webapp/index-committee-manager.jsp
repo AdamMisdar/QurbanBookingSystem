@@ -80,7 +80,7 @@
                             <a class="nav-link" href="client-list.jsp" onclick="location.href='client-list.jsp'">Senarai Klien</a>
                         </li>            
                         <li class="nav-item">
-                            <a class="nav-link" href="view-committee-account.jsp" onclick="location.href='view-committee-account.jsp'"><i class="far fa-user"></i> Akaun</a>
+                            <a class="nav-link" href="view-committee-management-account.jsp" onclick="location.href='view-committee-management-account.jsp'"><i class="far fa-user"></i> Akaun</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="LoginHandler?action=logout" onclick="location.href='LoginHandler?action=logout'"><i class="fas fa-sign-out-alt"></i> Log Keluar</a>
