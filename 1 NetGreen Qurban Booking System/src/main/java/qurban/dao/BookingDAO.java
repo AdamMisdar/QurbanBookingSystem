@@ -73,6 +73,32 @@ public class BookingDAO {
 		return booking_id;
 	}
 	
+	// Update (Committee id)
+	public void updateBooking(Booking existingBooking) {
+		
+		try {
+			// Get connection
+			connection = ConnectionManager.getConnection();
+			
+			// Get values
+			committeeID = existingBooking.getCommitteeID();
+			bookingID = existingBooking.getBookingID();
+			
+			// Prepare SQL
+			PreparedStatement updateSQL = connection.prepareStatement
+			("UPDATE booking "
+			+ "SET committeeid = ? "
+			+ "WHERE bookingid = ?");
+			
+			// Set ? values
+			updateSQL.setInt(1, committeeID);
+			updateSQL.setInt(2, bookingID);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	// Delete Booking (Committee) (ON DELETE CASCADE)
 	public void deleteBooking(int bookingID) {
 		

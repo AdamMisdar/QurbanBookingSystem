@@ -48,12 +48,8 @@
 
 	
 	<c:forEach var="committee" items="${committeeResult.rows}">
-		<p style="position:relative; color: rgb(253, 253, 253); font-weight: bold; text-align:left; left: 18px">
 			<c:out value="${committee.committeefullname}"/>
-		</p>
-		<p style="position:relative; color: rgb(253, 253, 253); text-align:left; left: 18px;">
 			<c:out value="${committee.managementposition}"/>
-		</p>
 	</c:forEach>
 	
 	

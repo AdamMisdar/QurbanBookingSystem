@@ -51,7 +51,11 @@ public class CommitteeHandler extends HttpServlet {
 				
 			// ------------------------------------------------	
 				
-			// Update Management (Manager Only) can fully update this account
+			case "viewManagement":
+				viewManagement(request, response);
+				break;
+				
+				// Update Management (Manager Only) can fully update this account
 			case "updateManagement_ManagerOnly":
 				updateManagement_ManagerOnly(request, response);
 				break;
@@ -59,7 +63,7 @@ public class CommitteeHandler extends HttpServlet {
 			// Update Management Account (Normal)
 			case "updateManagement":
 				updateManagement(request, response);		
-				
+				break;
 				
 			// Delete Management (Manager Only)
 			case "deleteManagement":
@@ -68,17 +72,24 @@ public class CommitteeHandler extends HttpServlet {
 				
 			// 	--------------------------------------------------
 				
-			// Update Voluntary (Manager Only) can fully update this account
+			case "viewVoluntary":
+				viewVoluntary(request, response);
+				break;
+				
+				// Update Voluntary (Manager Only) can fully update this account
 			case "updateVoluntary_ManagerOnly":
 				updateVoluntary_ManagerOnly(request, response);
+				break;
 				
 			// Update Voluntary (Normal)
 			case "updateVoluntary":
 				updateVoluntary(request, response);
+				break;
 			
 			// Delete Voluntary (Manager Only)
 			case "deleteVoluntary":
 				deleteVoluntary(request, response);
+				break;
 				
 			}
 			
@@ -154,6 +165,22 @@ public class CommitteeHandler extends HttpServlet {
 	}
 	
 	// ############################## MANAGEMENT ##############################
+	
+	// VIEW
+	private void viewManagement(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, SQLException, IOException {
+		
+		// Get values
+		int committee_id = Integer.parseInt(request.getParameter("ID"));
+		
+		// Redirect
+		request.setAttribute("ID_committee", committee_id);
+		
+		RequestDispatcher toPage = request.getRequestDispatcher("view-committee-management.jsp");
+		toPage.forward(request, response);
+		
+	}
+	
 	
 	// UPDATE ----------------------------------------------------------------
 	
@@ -234,6 +261,22 @@ public class CommitteeHandler extends HttpServlet {
 	}
 	
 	// ############################## VOLUNTARY ##############################
+	
+	// VIEW
+	private void viewVoluntary(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, SQLException, IOException {
+		
+		// Get values
+		int committee_id = Integer.parseInt(request.getParameter("ID"));
+		
+		// Redirect
+		request.setAttribute("ID_committee", committee_id);
+		
+		RequestDispatcher toPage = request.getRequestDispatcher("view-committee-voluntary.jsp");
+		toPage.forward(request, response);
+		
+	}
+	
 	
 	// UPDATE --------------------------------------------------------------
 	

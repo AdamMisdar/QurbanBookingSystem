@@ -17,6 +17,7 @@ import qurban.javabean.*;
 public class AnimalOrderHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private AnimalOrderDAO animalOrderDAO;
+	private BookingDAO bookingDAO;
 	HttpSession session;
 	boolean isCommittee = false;
        
@@ -24,6 +25,7 @@ public class AnimalOrderHandler extends HttpServlet {
     public AnimalOrderHandler() {
         super();
         animalOrderDAO = new AnimalOrderDAO();
+        bookingDAO = new BookingDAO();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -126,6 +128,18 @@ public class AnimalOrderHandler extends HttpServlet {
 		
 		// Redirect
 		if (isCommittee) {
+			// Get extra values
+			int committeeID = (int)session.getAttribute("committeeID");
+						
+			// Create object
+			Booking existingBooking = new Booking();
+						
+			existingBooking.setBookingID(bookingID);
+			existingBooking.setCommitteeID(committeeID);
+						
+			// Update committeeID in booking
+			bookingDAO.updateBooking(existingBooking);
+			
 			RequestDispatcher toPage = request.getRequestDispatcher("edit-committee-animal-order.jsp");
 			toPage.forward(request, response);
 		} 
@@ -159,6 +173,18 @@ public class AnimalOrderHandler extends HttpServlet {
 			request.setAttribute("bookingID", bookingID);
 			
 		if(isCommittee) {
+			// Get extra values
+			int committeeID = (int)session.getAttribute("committeeID");
+									
+			// Create object
+			Booking existingBooking = new Booking();
+									
+			existingBooking.setBookingID(bookingID);
+			existingBooking.setCommitteeID(committeeID);
+									
+			// Update committeeID in booking
+			bookingDAO.updateBooking(existingBooking);
+			
 			RequestDispatcher toPage = request.getRequestDispatcher("view-committee-booking.jsp");
 			toPage.forward(request, response);
 			

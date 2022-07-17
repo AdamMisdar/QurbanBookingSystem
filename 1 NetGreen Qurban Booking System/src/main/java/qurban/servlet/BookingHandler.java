@@ -41,6 +41,7 @@ public class BookingHandler extends HttpServlet {
 			switch(action) {
 			case "createBooking":
 				createBooking(request, response); 
+				break;
 				
 			case "viewBooking":
 				viewBooking(request, response);
@@ -117,14 +118,23 @@ public class BookingHandler extends HttpServlet {
 		
 		//Get attributes
 		int bookingID = Integer.parseInt(request.getParameter("bookingID"));
-		
+	
 		// Set attribute
 		request.setAttribute("bookingID", bookingID);
 		
-		// Redirect
-		
 		// if committee is the one viewing
 		if(isCommittee) {
+			// Get extra values
+			int committeeID = (int)session.getAttribute("committeeID");
+			
+			// Create object
+			Booking existingBooking = new Booking();
+			
+			existingBooking.setBookingID(bookingID);
+			existingBooking.setCommitteeID(committeeID);
+			
+			// Update committeeID in booking
+			bookingDAO.updateBooking(existingBooking);
 
 			RequestDispatcher toBooking = request.getRequestDispatcher("view-committee-booking.jsp");
 			toBooking.forward(request, response);
@@ -134,8 +144,6 @@ public class BookingHandler extends HttpServlet {
 			RequestDispatcher toBooking = request.getRequestDispatcher("view-client-booking.jsp");
 			toBooking.forward(request, response);
 		}
-
-	
 	}
 	
 	// Delete Booking (Committee - Management)
