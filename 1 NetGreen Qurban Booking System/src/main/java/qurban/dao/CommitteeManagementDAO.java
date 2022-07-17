@@ -163,6 +163,51 @@ public class CommitteeManagementDAO {
 		}
 	}
 	
+	public void updatePengerusi(Management existingManagement) throws SQLException {
+		
+		try {
+			
+			// Get connection
+			connection = ConnectionManager.getConnection();
+			
+			// Get values
+			committeeID = existingManagement.getCommitteeID();
+			committeeFullName = existingManagement.getCommitteeFullName();
+			committeePhoneNum = existingManagement.getCommitteePhoneNum();
+			committeeBirthDate = existingManagement.getCommitteeBirthDate();
+			committeeAddress = existingManagement.getCommitteeAddress();
+			committeeEmail = existingManagement.getCommitteeEmail();
+			committeePassword = existingManagement.getCommitteePassword();
+			managementPosition = existingManagement.getManagementPosition();
+			
+			// Prepare SQL Statement
+			PreparedStatement updateManagementSQL = connection.prepareStatement
+			( "UPDATE management "
+			+ "SET committeefullname = ?, committeephonenum = ?, committeebirthdate = ?, "
+			+ "committeeaddress = ?, committeeemail = ?, committeePassword = ?, managementposition = ? "
+			+ "WHERE committeeid = ?");
+
+			// Set ? Values
+			updateManagementSQL.setString(1, committeeFullName);
+			updateManagementSQL.setString(2, committeePhoneNum);
+			updateManagementSQL.setDate(3, committeeBirthDate);
+			updateManagementSQL.setString(4, committeeAddress);
+			updateManagementSQL.setString(5, committeeEmail);
+			updateManagementSQL.setString(6, committeePassword);
+			updateManagementSQL.setString(7, managementPosition);
+			updateManagementSQL.setInt(8, committeeID);
+			
+			
+			// Execute SQL
+			updateManagementSQL.executeUpdate();
+			System.out.println(updateManagementSQL);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	// Delete Management Account (Manager Only)
 	public void deleteManagement(int committeeID) throws SQLException {
 		

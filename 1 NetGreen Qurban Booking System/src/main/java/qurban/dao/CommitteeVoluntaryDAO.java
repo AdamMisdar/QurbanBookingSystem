@@ -45,9 +45,8 @@ public class CommitteeVoluntaryDAO {
 			
 			// Prepare SQL Statements
 			PreparedStatement createVoluntarySQL = connection.prepareStatement
-			( "INSERT INTO committee "
-			+ "(committeeid, committeefullname, committeephonenum, committeebirthdate, "
-			+ "committeeaddress, managerID, committeeemail, committeepassword, voluntaryrole, hourlyrate) "
+			( "INSERT INTO voluntary "
+			+ "(committeefullname, committeephonenum, committeebirthdate, committeeaddress, managerID, committeeemail, committeepassword, voluntaryrole, hourlyrate) "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			
 			// Set ? values

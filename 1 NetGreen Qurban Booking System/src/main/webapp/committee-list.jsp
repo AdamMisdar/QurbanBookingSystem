@@ -35,18 +35,19 @@
 						user="mledzxdxfykycr"
 						password="9d9f02cdbcf786cb80ebf7cdbcabfa637a4c84994673ed9256a9e83e39131589" />
 <%----------------------------------------------------------- DATABASE --%>
-<%-- COMMITTEE MANAGEMENT DETAILS ---------------------------------------%>
+<%-- SIDEBAR MANAGEMENT DETAILS ---------------------------------------%>
 	<sql:query dataSource="${qurbanDatabase}" var="committeeResult">
 		SELECT * FROM management WHERE committeeid = <%=committee_id%>
 	</sql:query>
-<%----------------------------------------------------- COMMITTEE MANAGEMENT DETAILS --%>	
+<%----------------------------------------------------- SIDEBAR MANAGEMENT DETAILS --%>	
+	
 	<c:forEach var="committee" items="${committeeResult.rows}">
 			<c:out value="${committee.committeefullname}"/><br>
 			<c:out value="${committee.managementposition}"/>
 	</c:forEach>
 	
 	<%-- HEADER --%>
-	<h2 style="position: absolute; right: 20px;">NETGREEN</h2><br><br>
+	<h2>NETGREEN</h2><br><br>
 	
 	<%-- NAVIGATION BAR --%>
 	<a href="index-committee.jsp" onclick="location.href='index-committee.jsp'">Laman Utama</a><br>
@@ -111,11 +112,11 @@
     		<td><c:out value="${management.managementposition}"/></td>
     		<td><c:out value="${management.committeephonenum}"/></td>
     		<td>
-    			<button name="update" formaction="CommitteeHandler?action=viewManagement&ID=${management.committeeID}">UPDATE</button>
+    			<button name="update" formaction="CommitteeHandler?action=viewManagement&ID=${management.committeeID}">KEMASKINI</button>
     			<c:forEach var="thisCom" items="${thisCom.rows}">
     				<c:if test="${management.committeeid != thisCom.committeeid}">
     					<c:if test="${management.managementposition != 'Pengerusi'}">
-    						<button name="delete" formaction="CommitteeHandler?action=deleteCommittee&ID=${management.committeeID}">PADAM</button>
+    						<button name="delete" formaction="CommitteeHandler?action=deleteManagement&ID=${management.committeeID}">PADAM</button>
     					</c:if>
     				</c:if>
     			</c:forEach>
@@ -132,8 +133,8 @@
     		<td><c:out value="${voluntary.voluntaryrole} (SUKARELAWAN)"/></td>
     		<td><c:out value="${voluntary.committeephonenum}"/></td>
     		<td>
-    			<button name="update" formaction="CommitteeHandler?action=viewVoluntary&ID=${voluntary.committeeID}">UPDATE</button>
-				<button name="delete" formaction="CommitteeHandler?action=deleteCommittee&ID=${voluntary.committeeID}">PADAM</button>
+    			<button name="update" formaction="CommitteeHandler?action=viewVoluntary&ID=${voluntary.committeeID}">KEMASKINI</button>
+				<button name="delete" formaction="CommitteeHandler?action=deleteVoluntary&ID=${voluntary.committeeID}">PADAM</button>
     		</td>
     	</tr>
     	</c:forEach>

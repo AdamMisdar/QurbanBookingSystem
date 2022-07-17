@@ -14,6 +14,7 @@ public class CommitteeHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CommitteeManagementDAO comManagementDAO;
 	private CommitteeVoluntaryDAO comVoluntaryDAO;
+	boolean managerEdit = false;
 	
 	HttpSession session = null;
        
@@ -56,8 +57,8 @@ public class CommitteeHandler extends HttpServlet {
 				break;
 				
 				// Update Management (Manager Only) can fully update this account
-			case "updateManagement_ManagerOnly":
-				updateManagement_ManagerOnly(request, response);
+			case "updateManagementManagerOnly":
+				updateManagementManagerOnly(request, response);
 				break;
 				
 			// Update Management Account (Normal)
@@ -70,15 +71,25 @@ public class CommitteeHandler extends HttpServlet {
 				deleteManagement(request, response);
 				break;
 				
+			case "editManagement":
+				managerEdit = true;
+				viewManagement(request, response);
+				break;
+				
 			// 	--------------------------------------------------
 				
 			case "viewVoluntary":
 				viewVoluntary(request, response);
 				break;
 				
+			case "editVoluntary":
+				managerEdit = true;
+				viewVoluntary(request, response);
+				break;
+				
 				// Update Voluntary (Manager Only) can fully update this account
-			case "updateVoluntary_ManagerOnly":
-				updateVoluntary_ManagerOnly(request, response);
+			case "updateVoluntaryManagerOnly":
+				updateVoluntaryManagerOnly(request, response);
 				break;
 				
 			// Update Voluntary (Normal)
@@ -90,6 +101,8 @@ public class CommitteeHandler extends HttpServlet {
 			case "deleteVoluntary":
 				deleteVoluntary(request, response);
 				break;
+				
+			
 				
 			}
 			
@@ -147,7 +160,7 @@ public class CommitteeHandler extends HttpServlet {
 			int managerID = Integer.parseInt(request.getParameter("managerID"));
 			String committeeEmail = request.getParameter("committeeEmail");
 			String committeePassword = request.getParameter("committeePassword");
-			String voluntaryRole = request.getParameter("committeePosition");
+			String voluntaryRole = request.getParameter("voluntaryRole");
 			double hourlyRate = Double.parseDouble(request.getParameter("hourlyRate"));
 			
 			// Create New Committee Object
@@ -176,8 +189,19 @@ public class CommitteeHandler extends HttpServlet {
 		// Redirect
 		request.setAttribute("ID_committee", committee_id);
 		
-		RequestDispatcher toPage = request.getRequestDispatcher("view-committee-management.jsp");
-		toPage.forward(request, response);
+		if(managerEdit) {
+			
+			RequestDispatcher toPage = request.getRequestDispatcher("edit-committee-management.jsp");
+			toPage.forward(request, response);
+			
+		} else {
+		
+			RequestDispatcher toPage = request.getRequestDispatcher("view-committee-management.jsp");
+			toPage.forward(request, response);
+		
+		}
+		
+		managerEdit = false;
 		
 	}
 	
@@ -185,27 +209,51 @@ public class CommitteeHandler extends HttpServlet {
 	// UPDATE ----------------------------------------------------------------
 	
 	// Update Management (Manager Only)
-	private void updateManagement_ManagerOnly(HttpServletRequest request, HttpServletResponse response) 
+	private void updateManagementManagerOnly(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, SQLException, IOException {
 		
 		// Get values of JSP
-		int committeeID = Integer.parseInt("committeID");
+		int committeeID = Integer.parseInt(request.getParameter("committeeID"));
 		String committeeFullName = request.getParameter("committeeFullName");
 		String committeePhoneNum = request.getParameter("committeePhoneNum");
-		Date committeeBirthDate = Date.valueOf(request.getParameter("CommitteeBirthDate"));
+		Date committeeBirthDate = Date.valueOf(request.getParameter("committeeBirthDate"));
 		String committeeAddress = request.getParameter("committeeAddress");
-		int managerID = Integer.parseInt(request.getParameter("managerID"));
 		String committeeEmail = request.getParameter("committeeEmail");
 		String committeePassword = request.getParameter("committeePassword");
 		String managementPosition = request.getParameter("managementPosition");
+		String isPengerusi = request.getParameter("isPengerusi");
 		
-		// Create Management Object
-		Management existingManagement = new Management
-	    (committeeID, committeeFullName, committeePhoneNum, committeeBirthDate, committeeAddress, 
-	    managerID, committeeEmail, committeePassword, managementPosition);
+		if (isPengerusi.equalsIgnoreCase("no")) {
+			int managerID = Integer.parseInt(request.getParameter("managerID"));
 		
-		// Send to DAO
-		comManagementDAO.updateManagement_ManagerOnly(existingManagement);
+			// Create Management Object
+			Management existingManagement = new Management
+		    (committeeID, committeeFullName, committeePhoneNum, committeeBirthDate, committeeAddress, 
+		    managerID, committeeEmail, committeePassword, managementPosition);
+			
+			// Send to DAO
+			comManagementDAO.updateManagement_ManagerOnly(existingManagement);
+		}
+		
+		else if (isPengerusi.equalsIgnoreCase("yes")) {
+			
+			// Create Management Object
+			Management pengerusi = new Management();
+			
+			pengerusi.setCommitteeID(committeeID);
+			pengerusi.setCommitteeFullName(committeeFullName);
+			pengerusi.setCommitteePhoneNum(committeePhoneNum);
+			pengerusi.setCommitteeBirthDate(committeeBirthDate);
+			pengerusi.setCommitteeAddress(committeeAddress);
+			pengerusi.setCommitteeEmail(committeeEmail);
+			pengerusi.setCommitteePassword(committeePassword);
+			pengerusi.setManagementPosition(managementPosition);
+			
+			// Send to DAO
+			comManagementDAO.updatePengerusi(pengerusi);
+		
+		}
+
 		
 		// Redirect back to view account
 		response.sendRedirect("committee-list.jsp");
@@ -220,7 +268,7 @@ public class CommitteeHandler extends HttpServlet {
 		int committeeID = Integer.parseInt("committeID");
 		String committeeFullName = request.getParameter("committeeFullName");
 		String committeePhoneNum = request.getParameter("committeePhoneNum");
-		Date committeeBirthDate = Date.valueOf(request.getParameter("CommitteeBirthDate"));
+		Date committeeBirthDate = Date.valueOf(request.getParameter("committeeBirthDate"));
 		String committeeAddress = request.getParameter("committeeAddress");
 		String committeeEmail = request.getParameter("committeeEmail");
 		String committeePassword = request.getParameter("committeePassword");
@@ -251,13 +299,13 @@ public class CommitteeHandler extends HttpServlet {
 			throws ServletException, SQLException, IOException {
 			
 		// Get values from JSP
-		int committeeID = Integer.parseInt(request.getParameter("committeeID"));
+		int committeeID = Integer.parseInt(request.getParameter("ID"));
 					
 		// Send to DAO
 		comManagementDAO.deleteManagement(committeeID);;
 					
 		// Redirect to home page
-		response.sendRedirect("homepage.html");
+		response.sendRedirect("committee-list.jsp");
 	}
 	
 	// ############################## VOLUNTARY ##############################
@@ -272,8 +320,18 @@ public class CommitteeHandler extends HttpServlet {
 		// Redirect
 		request.setAttribute("ID_committee", committee_id);
 		
-		RequestDispatcher toPage = request.getRequestDispatcher("view-committee-voluntary.jsp");
-		toPage.forward(request, response);
+		
+		if(managerEdit) {
+			
+			RequestDispatcher toPage = request.getRequestDispatcher("edit-committee-voluntary.jsp");
+			toPage.forward(request, response);
+			
+		} else {
+		
+			RequestDispatcher toPage = request.getRequestDispatcher("view-committee-voluntary.jsp");
+			toPage.forward(request, response);
+		
+		}
 		
 	}
 	
@@ -281,31 +339,30 @@ public class CommitteeHandler extends HttpServlet {
 	// UPDATE --------------------------------------------------------------
 	
 	// Update Voluntary (Manager Only)
-	private void updateVoluntary_ManagerOnly(HttpServletRequest request, HttpServletResponse response) 
+	private void updateVoluntaryManagerOnly(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, SQLException, IOException {
 	
 		// Get values
-		int committeeID = Integer.parseInt("committeID");
+		int committeeID = Integer.parseInt(request.getParameter("ID"));
 		String committeeFullName = request.getParameter("committeeFullName");
 		String committeePhoneNum = request.getParameter("committeePhoneNum");
-		Date committeeBirthDate = Date.valueOf(request.getParameter("CommitteeBirthDate"));
+		Date committeeBirthDate = Date.valueOf(request.getParameter("committeeBirthDate"));
 		String committeeAddress = request.getParameter("committeeAddress");
 		int managerID = Integer.parseInt(request.getParameter("managerID"));
 		String committeeEmail = request.getParameter("committeeEmail");
 		String committeePassword = request.getParameter("committeePassword");
-		double hourlyRate = Double.parseDouble("hourlyRate");
-		String voluntaryPosition = request.getParameter("voluntaryPosition");
+		double hourlyRate = Double.parseDouble(request.getParameter("hourlyRate"));
+		String voluntaryRole = request.getParameter("voluntaryRole");
 		
 		// Create Voluntary Object
 		Voluntary existingVoluntary = new Voluntary
 		(committeeID, committeeFullName, committeePhoneNum, committeeBirthDate, committeeAddress,
-		managerID, committeeEmail, committeePassword, hourlyRate, voluntaryPosition);
+		managerID, committeeEmail, committeePassword, hourlyRate, voluntaryRole);
 		
 		// Send to DAO
 		comVoluntaryDAO.updateVoluntary_ManagerOnly(existingVoluntary);
 		
 		// Redirect back to view account
-		session.setAttribute("committeeID", committeeID);
 		response.sendRedirect("committee-list.jsp");
 		
 	}	
@@ -315,10 +372,10 @@ public class CommitteeHandler extends HttpServlet {
 			throws ServletException, SQLException, IOException {
 	
 		// Get values
-		int committeeID = Integer.parseInt("committeID");
+		int committeeID = Integer.parseInt(request.getParameter("committeID"));
 		String committeeFullName = request.getParameter("committeeFullName");
 		String committeePhoneNum = request.getParameter("committeePhoneNum");
-		Date committeeBirthDate = Date.valueOf(request.getParameter("CommitteeBirthDate"));
+		Date committeeBirthDate = Date.valueOf(request.getParameter("committeeBirthDate"));
 		String committeeAddress = request.getParameter("committeeAddress");
 		String committeeEmail = request.getParameter("committeeEmail");
 		String committeePassword = request.getParameter("committeePassword");
@@ -350,7 +407,7 @@ public class CommitteeHandler extends HttpServlet {
 			throws ServletException, SQLException, IOException {
 		
 		// Get values from JSP
-		int committeeID = Integer.parseInt(request.getParameter("committeeID"));
+		int committeeID = Integer.parseInt(request.getParameter("ID"));
 						
 		// Send to DAO
 		comVoluntaryDAO.deleteVoluntary(committeeID);;
