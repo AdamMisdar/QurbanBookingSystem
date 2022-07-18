@@ -4,6 +4,9 @@
   <artifactId>1NetGreenQurbanBookingSystem</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
+    <name>Qurban Booking System</name>
+  <url>http://maven.apache.org</url>
+  
   
   <dependencies>
 		<dependency>
@@ -38,7 +41,7 @@
 </dependencies>
   
     <build>
-  <finalName>LoginQurban</finalName>
+ <finalName>QurbanBookingSystem</finalName>
     <plugins>
       		<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
