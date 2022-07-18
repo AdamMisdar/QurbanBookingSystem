@@ -1,10 +1,8 @@
 package qurban.dao;
 
-import java.io.InputStream;
+import java.io.*;
 import java.sql.*;
-import javax.servlet.http.Part;
-
-import oracle.net.aso.d;
+import javax.servlet.http.*;
 import qurban.connection.ConnectionManager;
 import qurban.javabean.*;
 
@@ -31,14 +29,16 @@ public class PaymentDAO {
 			// Get connection
 			connection = ConnectionManager.getConnection();
 			
-			connection.setAutoCommit(false);
-			
 			// Get values
 			bookingID = newPayment.getBookingID();
 			paymentTotal = newPayment.getPaymentTotal();
 			paymentDate = newPayment.getPaymentDate();
 			paymentReceipt = newPayment.getPaymentReceipt();
-			inputstream = paymentReceipt.getInputStream();
+			System.out.println(paymentReceipt);
+			
+			inputstream = new BufferedInputStream(paymentReceipt.getInputStream());
+			
+			byte[] byteArray = inputstream.readAllBytes();
 			
 			// Prepare SQL Statement
 			PreparedStatement addSQL = connection.prepareStatement
@@ -49,15 +49,11 @@ public class PaymentDAO {
 			// Set ? values
 			addSQL.setDouble(1, paymentTotal);
 			addSQL.setDate(2, paymentDate);
-			addSQL.setBlob(3, inputstream);
+			addSQL.setBytes(3, byteArray);
 			addSQL.setInt(4, bookingID);
 			
 			// Execute SQL
 			addSQL.executeUpdate();
-			
-			connection.commit();
-			
-			connection.setAutoCommit(true);
 			
 			// Check SQL
 			System.out.println(addSQL);

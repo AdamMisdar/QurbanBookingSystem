@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.sql.*" %>
@@ -6,18 +5,13 @@
 <%@ page import="java.io.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>KEMASKINI AKAUN</title>
-<link rel="stylesheet" href="style2.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+<title>Kemaskini</title>
 </head>
 <body>
-
 		<%!
 		// MANAGER ONLY
 		int committee_id; // mananager's committee id
@@ -51,6 +45,22 @@
 	</sql:query>
 <%----------------------------------------------------- SIDEBAR MANAGEMENT DETAILS --%>	
 
+	<c:forEach var="committee" items="${committeeResult.rows}">
+			<c:out value="${committee.committeefullname}"/><br>
+			<c:out value="${committee.managementposition}"/>
+	</c:forEach>
+	
+		<%-- HEADER --%>
+	<h2>NETGREEN</h2><br><br>
+	
+	<%-- NAVIGATION BAR --%>
+	<a href="index-committee.jsp" onclick="location.href='index-committee.jsp'">Laman Utama</a><br>
+    <a href="committee-booking-list.jsp" onclick="location.href='committee-booking-list.jsp'">Senarai Tempahan</a><br>
+    <a href="animal-details-list.jsp" onclick="location.href='animal-details-list.jsp'">Senarai Maklumat Haiwan</a><br>
+    <a href="committee-list.jsp" onclick="location.href='committee-list.jsp'">Senarai AJK</a><br>
+    <a href="client-list.jsp" onclick="location.href='client-list.jsp'">Senarai Klien</a><br>
+    <a href="view-committee-account.jsp" onclick="location.href='view-committee-account.jsp'">  Akaun</a><br>
+    <a href="LoginHandler?action=logout" onclick="location.href='LoginHandler?action=logout'">  Log Keluar</a><br>
     
     
     <%-- VOLUNTARY DETAILS ---------------------------------------%>
@@ -66,67 +76,13 @@
 		OR managementposition = 'Naib Pengerusi'
 	</sql:query>
 	<%--------------------------------------- MANAGER LIST  --%>
-
-        <input type="checkbox" id="check">
-    <!--header area start-->
-    <header>
-      <label for="check">
-        <i class="fas fa-bars" id="sidebar_btn"></i>
-      </label>
-      <div class="left_area">
-        <h3>NETGREEN </h3>
-      </div>
-      <div class="right_area">
-        <a href="#" class="logout_btn">Masjid Al-Khairiah</a>
-      </div>
-    </header>
-    <!--header area end-->
-    <!--mobile navigation bar start-->
-    <div class="mobile_nav">
-      <div class="nav_bar">
-        <img src="logo.png" class="mobile_profile_image" alt="">
-        <i class="fa fa-bars nav_btn"></i>
-      </div>
-      <div class="mobile_nav_items">
-        <a href="#index-committee.jsp" onclick="location.href='index-committee.jsp'"><i class="fas fa-home"></i><span>Laman Utama</span></a>
-        <a href="#committee-booking-list.jsp" onclick="location.href='committee-booking-list.jsp'"><i class="fas fa-clipboard-list"></i><span>Senarai Tempahan</span></a>
-        <a href="#animal-details-list.jsp" onclick="location.href='animal-details-list.jsp'"><i class="fas fa-list-alt"></i><span>Senarai Haiwan</span></a>
-        <a href="#committee-list.jsp" onclick="location.href='committee-list.jsp'"><i class="fas fa-users-cog"></i><span>Senarai AJK</span></a>
-        <a href="#client-list.jsp" onclick="location.href='client-list.jsp'"><i class="fas fa-users"></i><span>Senarai Klien</span></a>
-        <a href="#view-client-account.jsp"><i class="fas fa-user-alt"></i><span>Akaun</span></a>
-        <a href="#LoginHandler?action=logout" onclick="checkerlogout()" id="logout" onclick="location.href='LoginHandler?action=logout'"><i class="fas fa-sign-out-alt"></i><span> Log Keluar</span></a>
-      
-      </div>
-     
-    </div>
-    <!--mobile navigation bar end-->
-    <!--sidebar start-->
-    <div class="sidebar">
-      <div class="profile_info">
-        <img src="logo.png" class="profile_image" alt="">
-        <c:forEach var="committee" items="${resultCommittee.rows}">
-						<p>NAME:<c:out value="${committee.committeefullname}"/></p>
-						<p>POSITION:<c:out value="${committee.managementposition}"/></p>
-		</c:forEach>
-      </div>
-      <a href="#index-committee.jsp" onclick="location.href='index-committee.jsp'"><i class="fas fa-home"></i><span>Laman Utama</span></a>
-        <a href="#committee-booking-list.jsp" onclick="location.href='committee-booking-list.jsp'"><i class="fas fa-clipboard-list"></i><span>Senarai Tempahan</span></a>
-        <a href="#animal-details-list.jsp" onclick="location.href='animal-details-list.jsp'"><i class="fas fa-list-alt"></i><span>Senarai Haiwan</span></a>
-        <a href="#committee-list.jsp" onclick="location.href='committee-list.jsp'"><i class="fas fa-users-cog"></i><span>Senarai AJK</span></a>
-        <a href="#client-list.jsp" onclick="location.href='client-list.jsp'"><i class="fas fa-users"></i><span>Senarai Klien</span></a>
-        <a href="#view-client-account.jsp"><i class="fas fa-user-alt"></i><span>Akaun</span></a>
-        <a href="#LoginHandler?action=logout" onclick="checkerlogout()" id="logout" onclick="location.href='LoginHandler?action=logout'"><i class="fas fa-sign-out-alt"></i> Log Keluar</a>
-      
-    </div>
-
+		
     
-<div class="content">
-    <h1>KEMASKINI MAKLUMAT AKAUN (SUKARELAWAN)</h1>
-    <div class="content-container">
+    <h3>KEMASKINI MAKLUMAT AKAUN (SUKARELAWAN)</h3><br><br>
+    
     <form method="post">
-    	<table class="content-table">
+    	<table>
     	<c:forEach var="voluntary" items="${voluntaryResult.rows}">
-  
     	 <%
     		try {
 			// Get Connection
@@ -147,7 +103,6 @@
 		
 			//--- Scriplet continued at the bottom
 	 	%>
-
     		<tr>
     			<th>ID Akaun:</th>
     			<td>
@@ -191,7 +146,6 @@
     			<td><input type="number" name="hourlyRate" value='<%=result.getDouble("hourlyrate")%>' readonly></td>
     		</tr>
     		
-          
     		<%
 					}
     			} catch(Exception e){
@@ -199,7 +153,6 @@
     			}
     		
     		%>
-       
     		<tr>
     			<th>Pengurus:</th>
     			<td>
@@ -222,33 +175,8 @@
     	</c:forEach>
     	</table><br>
     	
-		<button name="back" class="buttoncancel" onclick="checkercancel()" formaction="CommitteeHandler?action=viewVoluntary&ID=<%=ID_committee%>">BATAL</button>
-		<button type="submit" name="update"   class="buttonsave" onclick="checkerupdate()" formaction="CommitteeHandler?action=updateVoluntaryManagerOnly&ID=<%=ID_committee%>">SIMPAN</button>
+		<button name="back" formaction="CommitteeHandler?action=viewVoluntary&ID=<%=ID_committee%>">BATAL</button>
+		<button type="submit" name="update" formaction="CommitteeHandler?action=updateVoluntaryManagerOnly&ID=<%=ID_committee%>">SIMPAN</button>
  	</form>
-    </div>
-
-</div>
-<script>
-    function checkerlogout(){
-            var result=confirm('Log Keluar?')
-            if (result==false){
-                event.preventDefault();
-            }
-        }
-        function checkercancel(){
-            var result=confirm('Kembali?')
-            if (result==false){
-                event.preventDefault();
-            }
-        }
-
-        function checkerupdate(){
-            var result=confirm('Selesai?')
-            if (result==false){
-                event.preventDefault();
-            }
-        }
-   </script>
-    
 </body>
 </html>

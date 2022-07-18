@@ -10,7 +10,7 @@ import qurban.javabean.*;
 
 
 @WebServlet("/PaymentHandler")
-@MultipartConfig(maxFileSize = 16177216)
+@MultipartConfig(maxFileSize = 16177216) // 16MB of size
 public class PaymentHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
       private PaymentDAO paymentDAO;
@@ -56,7 +56,6 @@ public class PaymentHandler extends HttpServlet {
 		Part paymentReceipt = request.getPart("paymentReceipt");
 		int bookingID = Integer.parseInt(request.getParameter("bookingID"));
 		
-		
 		// Create new Payment object
 		Payment newPayment = new Payment(paymentTotal, paymentDate, paymentReceipt, bookingID);
 		
@@ -68,4 +67,5 @@ public class PaymentHandler extends HttpServlet {
 		toBookingList.forward(request, response);
 	}
 
+	
 }
