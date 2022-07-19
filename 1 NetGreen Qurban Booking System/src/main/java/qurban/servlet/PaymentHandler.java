@@ -1,3 +1,4 @@
+/*
 package qurban.servlet;
 
 import java.io.*;
@@ -69,3 +70,4 @@ public class PaymentHandler extends HttpServlet {
 
 	
 }
+*/

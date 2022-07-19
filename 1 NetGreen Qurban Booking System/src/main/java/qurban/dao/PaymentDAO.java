@@ -1,3 +1,4 @@
+/*
 package qurban.dao;
 
 import java.io.*;
@@ -38,19 +39,19 @@ public class PaymentDAO {
 			
 			inputstream = new BufferedInputStream(paymentReceipt.getInputStream());
 			
-			byte[] byteArray = inputstream.readAllBytes();
+		//[] byteArray = inputstream.readAllBytes();
 			
 			// Prepare SQL Statement
 			PreparedStatement addSQL = connection.prepareStatement
 			("INSERT INTO payment "
-			+ "(paymenttotal, paymentdate, paymentreceipt, bookingid) "
+			+ "(paymenttotal, paymentdate, bookingid) "
 			+ "VALUES (?, ?, ?, ?)");
 			
 			// Set ? values
 			addSQL.setDouble(1, paymentTotal);
 			addSQL.setDate(2, paymentDate);
-			addSQL.setBytes(3, byteArray);
-			addSQL.setInt(4, bookingID);
+		//	addSQL.setBytes(3, byteArray);
+			addSQL.setInt(3, bookingID);
 			
 			// Execute SQL
 			addSQL.executeUpdate();
@@ -93,3 +94,6 @@ public class PaymentDAO {
 	}
 	
 }
+
+*/
+
