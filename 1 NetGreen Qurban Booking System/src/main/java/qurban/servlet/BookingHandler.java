@@ -125,7 +125,7 @@ public class BookingHandler extends HttpServlet {
 		// if committee is the one viewing
 		if(isCommittee) {
 			// Get extra values
-			int committeeID = (int)session.getAttribute("committeeID");
+			int committeeID = Integer.parseInt(request.getParameter("committeeID"));
 			
 			// Create object
 			Booking existingBooking = new Booking();
